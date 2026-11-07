@@ -1,8 +1,8 @@
 # Codyssey_01
 
 ## 1. 설치 명령 실행 및 설치 과정 확인
-### 가상 머신 플랫폼 활성화 완료 메시지 확인
-### 재부팅 전 wsl --status에서 미설치로 표시되는 현상 확인
+- 가상 머신 플랫폼 활성화 완료 메시지 확인
+- 재부팅 전 wsl --status에서 미설치로 표시되는 현상 확인
 
 PS C:\WINDOWS\system32> wsl --status
 Linux용 Windows 하위 시스템 설치되어 있지 않습니다. 'wsl.exe --install'을 실행하여 설치할 수 있습니다.
@@ -26,10 +26,10 @@ Windows 선택적 구성 요소 설치 중: VirtualMachinePlatform
 요청한 작업이 잘 실행되었습니다. 시스템을 다시 시작하면 변경 사항이 적용됩니다.
 요청한 작업이 잘 실행되었습니다. 시스템을 다시 시작하면 변경 사항이 적용됩니다.
 
-### WSL 3.0.3 설치 완료 메시지 확인
-### VirtualMachinePlatform 기능 활성화 완료
-### 시스템 재시작 후 변경 사항 적용 필요 메시지 확인
-### 교육장 PC의 초기화 환경으로 인해 재부팅 보류
+- WSL 3.0.3 설치 완료 메시지 확인
+- VirtualMachinePlatform 기능 활성화 완료
+- 시스템 재시작 후 변경 사항 적용 필요 메시지 확인
+- 교육장 PC의 초기화 환경으로 인해 재부팅 보류
  
 <img width="872" height="627" alt="02_wsl_status" src="https://github.com/user-attachments/assets/d323acbd-4c60-4320-bf93-777c5470add1" />
 <img width="731" height="305" alt="02_wsl_status_02" src="https://github.com/user-attachments/assets/af4247e5-ed2b-4ae8-bc76-593cdcf0b369" />
@@ -66,7 +66,8 @@ x64
 <img width="876" height="610" alt="03_program_check" src="https://github.com/user-attachments/assets/24195567-6db4-44b5-9995-aa8c5b51bf6f" />
 
 
-## 3. Get-Location 입력 : 현재 내가 어느 폴더에 있는지 명령어를 입력하여 확인.
+## 3. Get-Location 입력 
+- 현재 내가 어느 폴더에 있는지 명령어를 입력하여 확인.
 
 PS C:\Users\User> Get-Location
 
@@ -75,7 +76,8 @@ Path
 C:\Users\User
 
 
-## 4. Get-ChildItem 입력 : 현재 있는 폴더 안에 어떤 폴더와 파일들이 있는지 알려주는 명령어를 입력하여 확인.
+## 4. Get-ChildItem 입력 
+- 현재 있는 폴더 안에 어떤 폴더와 파일들이 있는지 알려주는 명령어를 입력하여 확인.
 
 PS C:\Users\User> Get-ChildItem
 
@@ -106,6 +108,7 @@ d-r---      2026-10-15   오전 9:30                Videos
 
 
 ## 5. 폴더 생성 및 이동
+
 PS C:\Users\User> cd Desktop
 PS C:\Users\User\Desktop> Get-Location
 
@@ -117,8 +120,9 @@ C:\Users\User\Desktop
 
 
 ## 6. 파일 생성 및 관리
-### PowerShell에서 폴더와 파일을 만들고, 내용을 입력하고, 확인하고, 복사하고, 삭제.
-### '-'를 입력해야 하는데 '_'를 입력하여 오류 발생 -> '-'로 다시 입력하여 문제 해결
+- PowerShell에서 폴더와 파일을 만들고, 내용을 입력하고, 확인하고, 복사하고, 삭제.
+-  '-'를 입력해야 하는데 '_'를 입력하여 오류 발생 -> '-'로 다시 입력하여 문제 해결
+
 PS C:\Users\User> mkdir Codyssey_Practice
 
 
@@ -188,7 +192,8 @@ Mode                 LastWriteTime         Length Name
 
 
 ## 7. 파일 권한 확인 및 변경
-### 파일을 누가 읽고, 수정하고, 실행할 수 있는지 정함.
+- 파일을 누가 읽고, 수정하고, 실행할 수 있는지 정함.
+
 PS C:\Users\User\Codyssey_practice> Get-Acl test.txt
 
 
