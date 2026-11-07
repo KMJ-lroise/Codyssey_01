@@ -35,7 +35,7 @@ Windows 선택적 구성 요소 설치 중: VirtualMachinePlatform
 <img width="731" height="305" alt="02_wsl_status_02" src="https://github.com/user-attachments/assets/af4247e5-ed2b-4ae8-bc76-593cdcf0b369" />
 
 
-## 2. ## 2. Docker와 Git 명령어 실행 확인
+## 2. Docker와 Git 명령어 실행 확인
 - Docker: 명령어 인식 불가 (설치 여부 또는 PATH 확인 필요)
 - Git: 명령어 인식 불가 (설치 여부 또는 PATH 확인 필요)
 - VS Code: 버전 1.144.1 확인
