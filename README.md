@@ -116,12 +116,141 @@ C:\Users\User\Desktop
 <img width="361" height="117" alt="05_folder_navigation" src="https://github.com/user-attachments/assets/34e328d5-01a0-409d-93ac-ba0dbb2d80a3" />
 
 
-
 ## 6. 파일 생성 및 관리
+### PowerShell에서 폴더와 파일을 만들고, 내용을 입력하고, 확인하고, 복사하고, 삭제.
+### '-'를 입력해야 하는데 '_'를 입력하여 오류 발생 -> '-'로 다시 입력하여 문제 해결
+PS C:\Users\User> mkdir Codyssey_Practice
+
+
+    디렉터리: C:\Users\User
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----      2026-11-07   오후 9:06                Codyssey_Practice
+
+
+PS C:\Users\User> cd Codyssey_practice
+PS C:\Users\User\Codyssey_practice> New-Item test.txt -ItemType File
+
+
+    디렉터리: C:\Users\User\Codyssey_practice
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      2026-11-07   오후 9:08              0 test.txt
+
+
+PS C:\Users\User\Codyssey_practice> Set-Content test.txt "Hello, Codyssey!"
+PS C:\Users\User\Codyssey_practice> Get-Content test.txt
+Hello, Codyssey!
+PS C:\Users\User\Codyssey_practice> Copy-Item test.txt test_copy.txt
+PS C:\Users\User\Codyssey_practice> Copy-Item test_copy.txt test_01.txt
+PS C:\Users\User\Codyssey_practice> Rename-Item test_copy.txt backup.txt
+PS C:\Users\User\Codyssey_practice> Get-ChildItem
+
+
+    디렉터리: C:\Users\User\Codyssey_practice
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      2026-11-07   오후 9:10             18 backup.txt
+-a----      2026-11-07   오후 9:10             18 test.txt
+-a----      2026-11-07   오후 9:10             18 test_01.txt
+
+
+PS C:\Users\User\Codyssey_practice> Remove_Item backup.txt
+Remove_Item : 'Remove_Item' 용어가 cmdlet, 함수, 스크립트 파일 또는 실행할 수 있는 프로그램 이름으로
+인식되지 않습니다. 이름이 정확한지 확인하고 경로가 포함된 경우 경로가 올바른지 검증한 다음 다시 시도
+하십시오.
+위치 줄:1 문자:1
++ Remove_Item backup.txt
++ ~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (Remove_Item:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+
+PS C:\Users\User\Codyssey_practice> Remove-Item backup.txt
+PS C:\Users\User\Codyssey_practice> Get-ChildItem
+
+
+    디렉터리: C:\Users\User\Codyssey_practice
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      2026-11-07   오후 9:10             18 test.txt
+-a----      2026-11-07   오후 9:10             18 test_01.txt
+
+<img width="887" height="317" alt="06_file_management_02" src="https://github.com/user-attachments/assets/efb88d44-dbf9-489f-9f29-0fa5ee0001a2" />
+<img width="921" height="967" alt="06_file_management_01" src="https://github.com/user-attachments/assets/5c142096-1a43-4d5c-8ca9-34101e6801fd" />
+
 
 ## 7. 파일 권한 확인 및 변경
+### 파일을 누가 읽고, 수정하고, 실행할 수 있는지 정함.
+PS C:\Users\User\Codyssey_practice> Get-Acl test.txt
+
+
+    디렉터리: C:\Users\User\Codyssey_practice
+
+
+Path     Owner                  Access
+----     -----                  ------
+test.txt BUILTIN\Administrators NT AUTHORITY\SYSTEM Allow  FullControl...
+
+
+PS C:\Users\User\Codyssey_practice> (Get-Acl test.txt).Access
+
+
+FileSystemRights  : FullControl
+AccessControlType : Allow
+IdentityReference : NT AUTHORITY\SYSTEM
+IsInherited       : True
+InheritanceFlags  : None
+PropagationFlags  : None
+
+FileSystemRights  : FullControl
+AccessControlType : Allow
+IdentityReference : BUILTIN\Administrators
+IsInherited       : True
+InheritanceFlags  : None
+PropagationFlags  : None
+
+FileSystemRights  : FullControl
+AccessControlType : Allow
+IdentityReference : 4F-81\User
+IsInherited       : True
+InheritanceFlags  : None
+PropagationFlags  : None
+
+
+
+PS C:\Users\User\Codyssey_practice> icacls test.txt
+test.txt NT AUTHORITY\SYSTEM:(I)(F)
+         BUILTIN\Administrators:(I)(F)
+         4F-81\User:(I)(F)
+
+1 파일을 처리했으며 0 파일은 처리하지 못했습니다.
+PS C:\Users\User\Codyssey_practice> icacls test.txt /grant "$($env:USERNAME):(M)"
+처리된 파일: test.txt
+1 파일을 처리했으며 0 파일은 처리하지 못했습니다.
+PS C:\Users\User\Codyssey_practice> icacls test.txt
+test.txt 4F-81\User:(M)
+         NT AUTHORITY\SYSTEM:(I)(F)
+         BUILTIN\Administrators:(I)(F)
+         4F-81\User:(I)(F)
+
+1 파일을 처리했으며 0 파일은 처리하지 못했습니다.
+
+<img width="762" height="981" alt="07_file_permissions_01" src="https://github.com/user-attachments/assets/cb778f62-3646-4e92-83b2-26824877ad7f" />
+
 
 ## 8. Docker 설치 및 환경 확인
+
+
+
+
 
 ## 9. Docker 컨테이너 실행 및 관리
 
