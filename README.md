@@ -32,9 +32,13 @@ Windows 선택적 구성 요소 설치 중: VirtualMachinePlatform
 ### 교육장 PC의 초기화 환경으로 인해 재부팅 보류
  
 <img width="872" height="627" alt="02_wsl_status" src="https://github.com/user-attachments/assets/d323acbd-4c60-4320-bf93-777c5470add1" />
+<img width="731" height="305" alt="02_wsl_status_02" src="https://github.com/user-attachments/assets/af4247e5-ed2b-4ae8-bc76-593cdcf0b369" />
 
 
-## 2. Docker와 Git은 명령어를 찾을 수 없었고, VS Code 1.144.1은 확인됐다고 기록
+## 2. ## 2. Docker와 Git 명령어 실행 확인
+- Docker: 명령어 인식 불가 (설치 여부 또는 PATH 확인 필요)
+- Git: 명령어 인식 불가 (설치 여부 또는 PATH 확인 필요)
+- VS Code: 버전 1.144.1 확인
 
 PS C:\Users\User> docker --version
 docker : 'docker' 용어가 cmdlet, 함수, 스크립트 파일 또는 실행할 수 있는 프로그램 이름으로 인식되지
@@ -101,7 +105,39 @@ d-r---      2026-10-15   오전 9:30                Videos
 <img width="597" height="592" alt="04_terminal_basic" src="https://github.com/user-attachments/assets/0bc3f3af-3937-495b-b823-2e74e1a37ce4" />
 
 
-## 5.
+## 5. 폴더 생성 및 이동
+PS C:\Users\User> cd Desktop
+PS C:\Users\User\Desktop> Get-Location
+
+Path
+----
+C:\Users\User\Desktop
+
+<img width="361" height="117" alt="05_folder_navigation" src="https://github.com/user-attachments/assets/34e328d5-01a0-409d-93ac-ba0dbb2d80a3" />
+
+
+
+## 6. 파일 생성 및 관리
+
+## 7. 파일 권한 확인 및 변경
+
+## 8. Docker 설치 및 환경 확인
+
+## 9. Docker 컨테이너 실행 및 관리
+
+## 10. Dockerfile 작성 및 웹 서버 실행
+
+## 11. 포트 포워딩
+
+## 12. Bind Mount
+
+## 13. Docker Volume 및 데이터 유지
+
+## 14. Git 및 GitHub 연동
+
+## 15. 트러블슈팅
+
+## 16. 최종 결과
 
 
 
