@@ -121,7 +121,6 @@ C:\Users\User\Desktop
 
 ## 6. 파일 생성 및 관리
 - PowerShell에서 폴더와 파일을 만들고, 내용을 입력하고, 확인하고, 복사하고, 삭제.
--  '-'를 입력해야 하는데 '_'를 입력하여 오류 발생 -> '-'로 다시 입력하여 문제 해결
 
 PS C:\Users\User> mkdir Codyssey_Practice
 
@@ -187,11 +186,15 @@ Mode                 LastWriteTime         Length Name
 -a----      2026-11-07   오후 9:10             18 test.txt
 -a----      2026-11-07   오후 9:10             18 test_01.txt
 
+
+-  '-'를 입력해야 하는데 '_'를 입력하여 오류 발생 -> '-'로 다시 입력하여 문제 해결
+  
 <img width="887" height="317" alt="06_file_management_02" src="https://github.com/user-attachments/assets/efb88d44-dbf9-489f-9f29-0fa5ee0001a2" />
 <img width="921" height="967" alt="06_file_management_01" src="https://github.com/user-attachments/assets/5c142096-1a43-4d5c-8ca9-34101e6801fd" />
 
 
 ## 7. 파일 권한 확인 및 변경
+- Get-Acl, icacls의 역할과 권한 변경 결과.
 - 파일을 누가 읽고, 수정하고, 실행할 수 있는지 정함.
 
 PS C:\Users\User\Codyssey_practice> Get-Acl test.txt
