@@ -1,9 +1,9 @@
 # Codyssey_01
 
-# 설치 명령 실행 및 설치 과정 확인
-# 가상 머신 플랫폼 활성화 완료 메시지 확인
-# 재부팅 전 wsl --status에서 미설치로 표시되는 현상 확인
-# 교육장 PC의 초기화 환경으로 인해 재부팅은 보류
+## 설치 명령 실행 및 설치 과정 확인
+## 가상 머신 플랫폼 활성화 완료 메시지 확인
+## 재부팅 전 wsl --status에서 미설치로 표시되는 현상 확인
+## 교육장 PC의 초기화 환경으로 인해 재부팅은 보류
 
 PS C:\WINDOWS\system32> wsl --status
 Linux용 Windows 하위 시스템 설치되어 있지 않습니다. 'wsl.exe --install'을 실행하여 설치할 수 있습니다.
@@ -13,7 +13,7 @@ Linux용 Windows 하위 시스템 설치되어 있지 않습니다. 'wsl.exe --i
 <img width="872" height="627" alt="02_wsl_status" src="https://github.com/user-attachments/assets/d323acbd-4c60-4320-bf93-777c5470add1" />
 
 
-# Docker와 Git은 명령어를 찾을 수 없었고, VS Code 1.144.1은 확인됐다고 기록
+## Docker와 Git은 명령어를 찾을 수 없었고, VS Code 1.144.1은 확인됐다고 기록
 
 PS C:\Users\User> docker --version
 docker : 'docker' 용어가 cmdlet, 함수, 스크립트 파일 또는 실행할 수 있는 프로그램 이름으로 인식되지
@@ -41,7 +41,7 @@ x64
 <img width="876" height="610" alt="03_program_check" src="https://github.com/user-attachments/assets/24195567-6db4-44b5-9995-aa8c5b51bf6f" />
 
 
-# Get-Location 입력 : 현재 내가 어느 폴더에 있는지 명령어를 입력하여 확인.
+## Get-Location 입력 : 현재 내가 어느 폴더에 있는지 명령어를 입력하여 확인.
 
 PS C:\Users\User> Get-Location
 
@@ -50,7 +50,7 @@ Path
 C:\Users\User
 
 
-# Get-ChildItem 입력 : 현재 있는 폴더 안에 어떤 폴더와 파일들이 있는지 알려주는 명령어를 입력하여 확인.
+## Get-ChildItem 입력 : 현재 있는 폴더 안에 어떤 폴더와 파일들이 있는지 알려주는 명령어를 입력하여 확인.
 
 PS C:\Users\User> Get-ChildItem
 
