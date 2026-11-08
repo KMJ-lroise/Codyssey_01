@@ -772,7 +772,62 @@ PS C:\Users\KJH\source\Codyssey_01\WebServer> docker logs --tail 20 codyssey-ser
 
 ## 12. Bind Mount
 
+- 파일 수정이 웹페이지에 바로 반영되는지 확인
+
+```text
+PS C:\Users\KJH\source\Codyssey_01\WebServer> Set-Location "$env:USERPROFILE\source\Codyssey_01\WebServer"
+>> docker stop codyssey-server
+>> docker rm codyssey-server
+codyssey-server
+codyssey-server
+PS C:\Users\KJH\source\Codyssey_01\WebServer> $appPath = (Resolve-Path .\app).Path
+>> docker run -d --name codyssey-server -p 127.0.0.1:8080:80 --mount "type=bind,source=$appPath,target=/usr/share/nginx/html,readonly" nginx:alpine
+>> docker ps
+Unable to find image 'nginx:alpine' locally
+alpine: Pulling from library/nginx
+Digest: sha256:713fc2ebfd92e8217db451477182ee91944b123d2b1ee9fd5a8c6e91ca6c3a11
+Status: Downloaded newer image for nginx:alpine
+466be0abdd8ba536850e2b5b18fba0d2efc385450c3dae3ad058d65fdd8e001f
+CONTAINER ID   IMAGE          COMMAND                   CREATED        STATUS                  PORTS                    NAMES
+466be0abdd8b   nginx:alpine   "/docker-entrypoint.…"   1 second ago   Up Less than a second   127.0.0.1:8080->80/tcp   codyssey-server
+PS C:\Users\KJH\source\Codyssey_01\WebServer> Set-Content -Path .\app\index.html -Value "<h1>Bind Mount Success!</h1>" -Encoding utf8
+>> Get-Content .\app\index.html
+>> docker exec codyssey-server cat /usr/share/nginx/html/index.html
+<h1>Bind Mount Success!</h1>
+﻿<h1>Bind Mount Success!</h1>
+```
+<img width="943" height="310" alt="12_Bind_Mount" src="https://github.com/user-attachments/assets/b2f99431-87d3-4664-b280-2d0f3d12306c" />
+<img width="459" height="222" alt="12_Bind_Mount_Success" src="https://github.com/user-attachments/assets/cd10a750-d9e1-459c-9953-da47f17d3cf5" />
+
+
 ## 13. Docker Volume 및 데이터 유지
+
+- 컨테이너를 삭제해도 데이터가 남는지 확인
+
+```text
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker volume create codyssey-data
+>> docker volume ls
+>> docker run -it --name codyssey-volume-test -v codyssey-data:/data ubuntu bash                                                      codyssey-data                                                                                                          .
+DRIVER    VOLUME NAME
+local     codyssey-data
+root@690d2c1614cb:/# echo "My Docker Volume Data" > /data/test.txt
+root@690d2c1614cb:/# cat /data/test.txt
+My Docker Volume Data
+root@690d2c1614cb:/# exit
+exit
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker rm codyssey-volume-test
+>> docker volume ls
+codyssey-volume-test
+DRIVER    VOLUME NAME
+local     codyssey-data
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker run -it --name codyssey-volume-check -v codyssey-data:/data ubuntu bash
+root@8f9f357e9d6c:/# cat /data/test.txt
+My Docker Volume Data
+root@8f9f357e9d6c:/# exit
+exit
+```
+<img width="891" height="299" alt="13_Docker Volume" src="https://github.com/user-attachments/assets/72a07d89-21fc-45de-871a-d7e31c01d716" />
+
 
 ## 14. Git 및 GitHub 연동
 ````text
