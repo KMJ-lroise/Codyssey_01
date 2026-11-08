@@ -641,6 +641,7 @@ CONTAINER ID   NAME              CPU %     MEM USAGE / LIMIT     MEM %     NET I
 ---
 
 - 주 프로세스를 계속 실행하는 Ubuntu 컨테이너
+- 새 컨테이너 생성은 실패했지만, 이어서 입력한 docker exec는 이미 실행 중이던 879189c2ec6e 컨테이너에 연결. 기존 컨테이너에 접속해 실습
 
 ```text
 PS C:\WINDOWS\system32> docker run -d --name codyssey-exec-demo ubuntu sleep infinity
@@ -669,6 +670,8 @@ PS C:\WINDOWS\system32> docker stop codyssey-exec-demo
 codyssey-exec-demo
 CONTAINER ID   IMAGE     COMMAND            CREATED         STATUS                                PORTS     NAMES
 879189c2ec6e   ubuntu    "sleep infinity"   2 minutes ago   Exited (137) Less than a second ago             codyssey-exec-demo
+PS C:\WINDOWS\system32> docker inspect codyssey-exec-demo --format 'ExitCode={{.State.ExitCode}} OOMKilled={{.State.OOMKilled}}'
+ExitCode=137 OOMKilled=false
 ```
 <img width="944" height="386" alt="6_7_2" src="https://github.com/user-attachments/assets/c0d3829b-a3bf-4dd4-803f-f8a2f14d37ae" />
 
