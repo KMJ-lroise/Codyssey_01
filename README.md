@@ -42,6 +42,7 @@ Windows 선택적 구성 요소 설치 중: VirtualMachinePlatform
 - Git: 명령어 인식 불가 (설치 여부 또는 PATH 확인 필요)
 - VS Code: 버전 1.144.1 확인
 
+```text
 PS C:\Users\User> docker --version
 docker : 'docker' 용어가 cmdlet, 함수, 스크립트 파일 또는 실행할 수 있는 프로그램 이름으로 인식되지
 않습니다. 이름이 정확한지 확인하고 경로가 포함된 경우 경로가 올바른지 검증한 다음 다시 시도하십시오.
@@ -64,6 +65,7 @@ PS C:\Users\User> code --version
 1.144.1
 261c84cb1eddf11235f9e2c921425e9663fbe556
 x64
+```
 
 <img width="876" height="610" alt="03_program_check" src="https://github.com/user-attachments/assets/24195567-6db4-44b5-9995-aa8c5b51bf6f" />
 
@@ -71,16 +73,19 @@ x64
 ## 3. Get-Location 입력 
 - 현재 내가 어느 폴더에 있는지 명령어를 입력하여 확인.
 
+```text
 PS C:\Users\User> Get-Location
 
 Path
 ----
 C:\Users\User
+```
 
 
 ## 4. Get-ChildItem 입력 
 - 현재 있는 폴더 안에 어떤 폴더와 파일들이 있는지 알려주는 명령어를 입력하여 확인.
 
+```text
 PS C:\Users\User> Get-ChildItem
 
 
@@ -105,18 +110,21 @@ d-r---      2026-10-14   오후 6:07                Pictures
 d-r---      2026-10-14   오후 6:07                Saved Games
 d-r---      2026-10-14   오후 6:27                Searches
 d-r---      2026-10-15   오전 9:30                Videos
+```
 
 <img width="597" height="592" alt="04_terminal_basic" src="https://github.com/user-attachments/assets/0bc3f3af-3937-495b-b823-2e74e1a37ce4" />
 
 
 ## 5. 폴더 이동 및 현재 위치 확인
 
+```text
 PS C:\Users\User> cd Desktop
 PS C:\Users\User\Desktop> Get-Location
 
 Path
 ----
 C:\Users\User\Desktop
+```
 
 <img width="361" height="117" alt="05_folder_navigation" src="https://github.com/user-attachments/assets/34e328d5-01a0-409d-93ac-ba0dbb2d80a3" />
 
@@ -124,6 +132,7 @@ C:\Users\User\Desktop
 ## 6. 파일 생성 및 관리
 - PowerShell에서 폴더와 파일을 만들고, 내용을 입력하고, 확인하고, 복사하고, 삭제.
 
+```text
 PS C:\Users\User> mkdir Codyssey_Practice
 
 
@@ -187,7 +196,7 @@ Mode                 LastWriteTime         Length Name
 ----                 -------------         ------ ----
 -a----      2026-11-07   오후 9:10             18 test.txt
 -a----      2026-11-07   오후 9:10             18 test_01.txt
-
+```
 
 -  '-'를 입력해야 하는데 '_'를 입력하여 오류 발생 -> '-'로 다시 입력하여 문제 해결
   
@@ -200,6 +209,7 @@ Mode                 LastWriteTime         Length Name
 - 파일을 누가 읽고, 수정하고, 실행할 수 있는지 정함.
 - 현재 사용자에게 수정 권한을 추가했으며, 기존의 상속된 전체 제어 권한은 유지됨.
 
+```text
 PS C:\Users\User\Codyssey_practice> Get-Acl test.txt
 
 
@@ -253,6 +263,7 @@ test.txt 4F-81\User:(M)
          4F-81\User:(I)(F)
 
 1 파일을 처리했으며 0 파일은 처리하지 못했습니다.
+```
 
 <img width="762" height="981" alt="07_file_permissions_01" src="https://github.com/user-attachments/assets/cb778f62-3646-4e92-83b2-26824877ad7f" />
 
@@ -262,7 +273,8 @@ test.txt 4F-81\User:(M)
 
 ----
 - wsl 확인
-----
+
+```text
 PS C:\WINDOWS\system32> wsl --version
 WSL 버전: 3.0.1.0
 커널 버전: 6.18.40.1-1
@@ -277,10 +289,11 @@ PS C:\WINDOWS\system32> wsl --list --verbose
 * Ubuntu    Running         2
 
 <img width="803" height="606" alt="08_03_wsl_ready" src="https://github.com/user-attachments/assets/5ae8a740-dbc6-47ad-ae7b-fb7cfabca524" />
-
+```
 ----
 - docker engine check
-----
+
+```text
 PS C:\WINDOWS\system32> docker version
 Client:
  Version:           29.9.2
@@ -417,6 +430,7 @@ Server:
   ::1/128
  Live Restore Enabled: false
  Firewall Backend: iptables
+```
 
 <img width="432" height="424" alt="08_04_docker_engine_check_01" src="https://github.com/user-attachments/assets/0012f950-8042-4acc-88b7-9cf29fe5ac6b" />
 <img width="610" height="732" alt="08_04_docker_engine_check_02" src="https://github.com/user-attachments/assets/f256c0ff-e6cb-4bd3-a1bd-d91e7b441fbb" />
@@ -427,6 +441,7 @@ Server:
 
 - Docker 컨테이너 실행
 
+```text
 PS C:\WINDOWS\system32> docker run --name codyssey-hello hello-world
 Unable to find image 'hello-world:latest' locally
 latest: Pulling from library/hello-world
@@ -455,12 +470,14 @@ Share images, automate workflows, and more with a free Docker ID:
 
 For more examples and ideas, visit:
  https://docs.docker.com/get-started/
+```
 
  <img width="565" height="404" alt="09_01_hello_world" src="https://github.com/user-attachments/assets/185b3a95-6df5-4a80-a69e-849902d7ec06" />
 ----
 
 - 컨테이너와 이미지 목록 확인
 
+```text
 PS C:\WINDOWS\system32> docker ps
 CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
 PS C:\WINDOWS\system32> docker ps -a
@@ -470,12 +487,14 @@ PS C:\WINDOWS\system32> docker images
                                                                                                                i Info →   U  In Use
 IMAGE                ID             DISK USAGE   CONTENT SIZE   EXTRA
 hello-world:latest   c567b231f656       25.9kB         9.49kB    U
+```
 
 <img width="929" height="134" alt="09_02_container_list" src="https://github.com/user-attachments/assets/56f21558-e81b-4b78-a762-551ffd6e0398" />
 ----
 
 - Ubuntu 실행 후 정보 확인
 
+```text
 PS C:\WINDOWS\system32> docker run -it --name codyssey-ubuntu ubuntu bash
 Unable to find image 'ubuntu:latest' locally
 latest: Pulling from library/ubuntu
@@ -498,12 +517,14 @@ BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
 PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
 UBUNTU_CODENAME=resolute
 LOGO=ubuntu-logo
+```
 
 <img width="588" height="313" alt="09_03_ubuntu_container" src="https://github.com/user-attachments/assets/42fa7673-ba61-44aa-b5bf-f1c627e88127" />
 ----
 
 - 컨테이너에서 나가고 재실행
 
+```text
 root@bcb80ac5ecac:/# exit
 exit
 PS C:\WINDOWS\system32> docker ps -a
@@ -527,6 +548,7 @@ UBUNTU_CODENAME=resolute
 LOGO=ubuntu-logo
 root@bcb80ac5ecac:/# exit
 exit
+```
 
 <img width="784" height="325" alt="09_04_container_restart" src="https://github.com/user-attachments/assets/388224cf-08b3-4aae-be23-95e6851290c4" />
 ---
