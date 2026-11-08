@@ -624,6 +624,55 @@ exit
 <img width="784" height="325" alt="09_04_container_restart" src="https://github.com/user-attachments/assets/388224cf-08b3-4aae-be23-95e6851290c4" />
 ---
 
+- 실행 중인 컨테이너의 CPU·메모리 사용량 등을 한 번 출력하고 종료
+
+```text
+PS C:\WINDOWS\system32> docker --version
+>> docker ps
+>> docker stats --no-stream
+Docker version 29.9.2, build a82e528
+CONTAINER ID   IMAGE          COMMAND                   CREATED          STATUS          PORTS                    NAMES
+466be0abdd8b   nginx:alpine   "/docker-entrypoint.…"   45 minutes ago   Up 45 minutes   127.0.0.1:8080->80/tcp   codyssey-server
+CONTAINER ID   NAME              CPU %     MEM USAGE / LIMIT     MEM %     NET I/O          BLOCK I/O     PIDS
+466be0abdd8b   codyssey-server   0.00%     7.266MiB / 7.705GiB   0.09%     5.2kB / 2.67kB   0B / 12.3kB   9
+```
+
+<img width="925" height="114" alt="09" src="https://github.com/user-attachments/assets/b87a7b56-0db0-48c4-b57e-fc35e30a9740" />
+---
+
+- 주 프로세스를 계속 실행하는 Ubuntu 컨테이너
+
+```text
+PS C:\WINDOWS\system32> docker run -d --name codyssey-exec-demo ubuntu sleep infinity
+>> docker exec -it codyssey-exec-demo bash
+docker: Error response from daemon: Conflict. The container name "/codyssey-exec-demo" is already in use by container "879189c2ec6ee06cb5ac2a0e04ea2256b9daa8d9cf075c22ae2dfa10ac35c7e6". You have to remove (or rename) that container to be able to reuse that name.
+
+Run 'docker run --help' for more information
+
+What's next:
+    Debug this container error with Gordon → docker ai "help me fix this container error"
+root@879189c2ec6e:/# echo "This shell was started by docker exec"
+This shell was started by docker exec
+root@879189c2ec6e:/# ls
+bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var
+root@879189c2ec6e:/# exit
+exit
+
+What's next:
+    Try Docker Debug for seamless, persistent debugging tools in any container or image → docker debug codyssey-exec-demo
+    Learn more at https://docs.docker.com/go/debug-cli/
+PS C:\WINDOWS\system32> docker ps --filter name=codyssey-exec-demo
+CONTAINER ID   IMAGE     COMMAND            CREATED              STATUS              PORTS     NAMES
+879189c2ec6e   ubuntu    "sleep infinity"   About a minute ago   Up About a minute             codyssey-exec-demo
+PS C:\WINDOWS\system32> docker stop codyssey-exec-demo
+>> docker ps -a --filter name=codyssey-exec-demo
+codyssey-exec-demo
+CONTAINER ID   IMAGE     COMMAND            CREATED         STATUS                                PORTS     NAMES
+879189c2ec6e   ubuntu    "sleep infinity"   2 minutes ago   Exited (137) Less than a second ago             codyssey-exec-demo
+```
+<img width="944" height="386" alt="6_7_2" src="https://github.com/user-attachments/assets/c0d3829b-a3bf-4dd4-803f-f8a2f14d37ae" />
+
+
 ## 10. Dockerfile 작성 및 웹 서버 실행
 
 - Get-Content로 확인한 HTML과 Dockerfile
@@ -1007,6 +1056,9 @@ x64
 
 ----
 - 6번 파일 생성 및 항목에서 '-'를 입력해야 하는데 '_'를 입력하여 오류 발생 -> '-'로 다시 입력하여 문제 해결
+- 6번에서 cp not.txt note_copy.txt	실제 파일명 note.txt를 not.txt로 입력	올바른 이름으로 다시 복사해 성공
+- 6번에서 ls -la permissionscp note.txt note_copy.txt	명령 두 개가 줄바꿈 없이 붙음->	ls -la permissions를 다시 실행해 확인
+- 이후 mv의 cannot stat	이동하려는 원본 파일이 당시 존재하지 않음 ->	마지막 목록에서 삭제 대상이 없는 상태 확인
 
 
 ## 16. 최종 결과
