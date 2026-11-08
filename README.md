@@ -197,11 +197,60 @@ Mode                 LastWriteTime         Length Name
 -a----      2026-11-07   오후 9:10             18 test.txt
 -a----      2026-11-07   오후 9:10             18 test_01.txt
 ```
+```text
+PS C:\Users\KJH\source\Codyssey_01\WebServer> wsl -d Ubuntu
+kjh@admin:/mnt/c/Users/KJH/source/Codyssey_01/WebServer$ cd ~
+kjh@admin:~$ mkdir -p codyssey-week01/permissions
+kjh@admin:~$ cd codyssey-week01
+kjh@admin:~/codyssey-week01$ pwd
+/home/kjh/codyssey-week01
+kjh@admin:~/codyssey-week01$ touch empty.txt .hidden-note
+kjh@admin:~/codyssey-week01$ echo "Hello, Linux CLI!" > note.txt
+kjh@admin:~/codyssey-week01$ ls -la
+total 16
+drwxr-xr-x 3 kjh kjh 4096 Nov  8 20:01 .
+drwxr-x--- 5 kjh kjh 4096 Nov  8 19:59 ..
+-rw-r--r-- 1 kjh kjh    0 Nov  8 20:00 .hidden-note
+-rw-r--r-- 1 kjh kjh    0 Nov  8 20:00 empty.txt
+-rw-r--r-- 1 kjh kjh   18 Nov  8 20:01 note.txt
+drwxr-xr-x 2 kjh kjh 4096 Nov  8 19:59 permissions
+kjh@admin:~/codyssey-week01$ cat note.txt
+Hello, Linux CLI!
+kjh@admin:~/codyssey-week01$ cp not.txt note_copy.txt      안)
+cp: cannot stat 'not.txt': No such file or directory
+kjh@admin:~/codyssey-week01$ cp note.txt note_copy.txt
+kjh@admin:~/codyssey-week01$ mv note_copy.txt renamed.txt
+kjh@admin:~/codyssey-week01$ mv renamed.txt permissions/
+kjh@admin:~/codyssey-week01$ ls -la permissions/renamed.txt
+-rw-r--r-- 1 kjh kjh 18 Nov  8 20:02 permissions/renamed.txt
+kjh@admin:~/codyssey-week01$ cp note.txt note_copy.txt
+kjh@admin:~/codyssey-week01$ mv note_copy.txt renamed.txt
+kjh@admin:~/codyssey-week01$ mv renamed.txt permissions/
+kjh@admin:~/codyssey-week01$ ls -la permissions
+total 12
+drwxr-xr-x 2 kjh kjh 4096 Nov  8 20:04 .
+drwxr-xr-x 3 kjh kjh 4096 Nov  8 20:04 ..
+-rw-r--r-- 1 kjh kjh   18 Nov  8 20:04 renamed.txt
+kjh@admin:~/codyssey-week01$ rm permissions/renamed.txt
+kjh@admin:~/codyssey-week01$ ls -la permissionscp note.txt note_copy.txt
+ls: cannot access 'permissionscp': No such file or directory
+ls: cannot access 'note_copy.txt': No such file or directory
+-rw-r--r-- 1 kjh kjh 18 Nov  8 20:01 note.txt
+kjh@admin:~/codyssey-week01$ mv note_copy.txt renamed.txt
+mv: cannot stat 'note_copy.txt': No such file or directory
+kjh@admin:~/codyssey-week01$ mv renamed.txt permissions/
+mv: cannot stat 'renamed.txt': No such file or directory
+kjh@admin:~/codyssey-week01$ ls -la permissions
+total 8                                                      .
+drwxr-xr-x 2 kjh kjh 4096 Nov  8 20:04 .
+drwxr-xr-x 3 kjh kjh 4096 Nov  8 20:04 ..
+```
 
 -  '-'를 입력해야 하는데 '_'를 입력하여 오류 발생 -> '-'로 다시 입력하여 문제 해결
   
 <img width="887" height="317" alt="06_file_management_02" src="https://github.com/user-attachments/assets/efb88d44-dbf9-489f-9f29-0fa5ee0001a2" />
 <img width="921" height="967" alt="06_file_management_01" src="https://github.com/user-attachments/assets/5c142096-1a43-4d5c-8ca9-34101e6801fd" />
+<img width="540" height="915" alt="6_7_" src="https://github.com/user-attachments/assets/d0109caf-bdf9-4946-b00c-b5c24f1ec1d2" />
 
 
 ## 7. 파일 권한 확인 및 변경
@@ -264,8 +313,24 @@ test.txt 4F-81\User:(M)
 
 1 파일을 처리했으며 0 파일은 처리하지 못했습니다.
 ```
+```text
+kjh@admin:~/codyssey-week01$ stat -c '%a %A %n' note.txt permissions
+644 -rw-r--r-- note.txt                                              .
+755 drwxr-xr-x permissions
+kjh@admin:~/codyssey-week01$ chmod 600 note.txt
+kjh@admin:~/codyssey-week01$ chmod 700 permissions
+kjh@admin:~/codyssey-week01$ stat -c '%a %A %n' note.txt permissions
+600 -rw------- note.txt
+700 drwx------ permissions
+kjh@admin:~/codyssey-week01$ chmod 644 note.txt
+kjh@admin:~/codyssey-week01$ chmod 755 permissions
+kjh@admin:~/codyssey-week01$ stat -c '%a %A %n' note.txt permissions
+644 -rw-r--r-- note.txt
+755 drwxr-xr-x permissions
+```
 
 <img width="762" height="981" alt="07_file_permissions_01" src="https://github.com/user-attachments/assets/cb778f62-3646-4e92-83b2-26824877ad7f" />
+<img width="540" height="915" alt="6_7_" src="https://github.com/user-attachments/assets/be210049-e096-4595-a9f6-e064c39a1fc7" />
 
 
 ## 8. Docker 설치 및 환경 확인
@@ -797,7 +862,14 @@ PS C:\Users\KJH\source\Codyssey_01\WebServer> Set-Content -Path .\app\index.html
 ﻿<h1>Bind Mount Success!</h1>
 ```
 <img width="943" height="310" alt="12_Bind_Mount" src="https://github.com/user-attachments/assets/b2f99431-87d3-4664-b280-2d0f3d12306c" />
+- 변경 전
+<img width="528" height="359" alt="11_02_browser" src="https://github.com/user-attachments/assets/37c99184-3a79-4f18-81a7-93cf5b511b33" />
+- 변경 후
 <img width="459" height="222" alt="12_Bind_Mount_Success" src="https://github.com/user-attachments/assets/cd10a750-d9e1-459c-9953-da47f17d3cf5" />
+
+----
+- 변경 전: Hello, Codyssey!, 변경 후: Bind Mount Success!
+- 파일 수정 후 이미지 재빌드·컨테이너 재시작 없이 반영됐음
 
 
 ## 13. Docker Volume 및 데이터 유지
@@ -807,7 +879,8 @@ PS C:\Users\KJH\source\Codyssey_01\WebServer> Set-Content -Path .\app\index.html
 ```text
 PS C:\Users\KJH\source\Codyssey_01\WebServer> docker volume create codyssey-data
 >> docker volume ls
->> docker run -it --name codyssey-volume-test -v codyssey-data:/data ubuntu bash                                                      codyssey-data                                                                                                          .
+>> docker run -it --name codyssey-volume-test -v codyssey-data:/data ubuntu bash
+codyssey-data                                                                                                          .
 DRIVER    VOLUME NAME
 local     codyssey-data
 root@690d2c1614cb:/# echo "My Docker Volume Data" > /data/test.txt
@@ -931,6 +1004,10 @@ e646868227c3e3a9e3f24277c8c7220be42c0be7
 x64
 ````
 <img width="295" height="91" alt="14_01_git_vscode_check" src="https://github.com/user-attachments/assets/3558f951-ed51-492f-beed-08a2662ef974" />
+
+----
+- 6번 파일 생성 및 항목에서 '-'를 입력해야 하는데 '_'를 입력하여 오류 발생 -> '-'로 다시 입력하여 문제 해결
+
 
 ## 16. 최종 결과
 
