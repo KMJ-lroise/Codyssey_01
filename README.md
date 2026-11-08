@@ -1,4 +1,4 @@
-<img width="1436" height="898" alt="image" src="https://github.com/user-attachments/assets/ad5b9270-0f3a-4e30-9a22-8f6358d383c8" /># Codyssey_01
+# Codyssey_01
 
 ## 1. 설치 명령 실행 및 설치 과정 확인
 - 가상 머신 플랫폼 활성화 완료 메시지 확인
@@ -626,8 +626,9 @@ Mode                 LastWriteTime         Length Name
 -a----      2026-11-08   오후 6:25          23988 README.md
 ```
 <img width="598" height="578" alt="14_02_repository_clone" src="https://github.com/user-attachments/assets/32d82c6f-4a29-4bcf-a19e-e9fedc0bd770" />
+----
 
--vs code 연동
+- vs code 연동
 <img width="1436" height="898" alt="VS Code" src="https://github.com/user-attachments/assets/465bdf84-4e87-49d1-9e0a-edb22461f5d8" />
 
 
