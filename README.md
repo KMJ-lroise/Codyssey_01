@@ -728,6 +728,48 @@ PS C:\Users\KJH\source\Codyssey_01\WebServer> docker exec codyssey-server cat /u
 
 ## 11. 포트 포워딩
 
+- 포트를 지정한 실행 명령, docker ps, docker port 결과
+
+```text
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker stop codyssey-server
+codyssey-server
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker rm codyssey-server
+codyssey-server
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker run -d --name codyssey-server -p 127.0.0.1:8080:80 codyssey-web
+ff3e9215bfe58f62d2b217e69cba6b80ae1f0dd30e1515171ef82b0881a1e6df
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker ps
+CONTAINER ID   IMAGE          COMMAND                   CREATED          STATUS          PORTS                    NAMES
+ff3e9215bfe5   codyssey-web   "/docker-entrypoint.…"   58 seconds ago   Up 57 seconds   127.0.0.1:8080->80/tcp   codyssey-server
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker port codyssey-server
+80/tcp -> 127.0.0.1:8080
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker logs --tail 20 codyssey-server
+2026/11/08 10:21:23 [notice] 1#1: using the "epoll" event method
+2026/11/08 10:21:23 [notice] 1#1: nginx/1.31.8
+2026/11/08 10:21:23 [notice] 1#1: built by gcc 15.2.0 (Alpine 15.2.0)
+2026/11/08 10:21:23 [notice] 1#1: OS: Linux 6.18.40.1-microsoft-standard-WSL2
+2026/11/08 10:21:23 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2026/11/08 10:21:23 [notice] 1#1: start worker processes
+2026/11/08 10:21:23 [notice] 1#1: start worker process 30
+2026/11/08 10:21:23 [notice] 1#1: start worker process 31
+2026/11/08 10:21:23 [notice] 1#1: start worker process 32
+2026/11/08 10:21:23 [notice] 1#1: start worker process 33
+2026/11/08 10:21:23 [notice] 1#1: start worker process 34
+2026/11/08 10:21:23 [notice] 1#1: start worker process 35
+2026/11/08 10:21:23 [notice] 1#1: start worker process 36
+2026/11/08 10:21:23 [notice] 1#1: start worker process 37
+172.17.0.1 - - [08/Nov/2026:10:25:41 +0000] "GET / HTTP/1.1" 200 30 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+172.17.0.1 - - [08/Nov/2026:10:25:41 +0000] "GET /favicon.ico HTTP/1.1" 404 555 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36" "-"
+2026/11/08 10:25:41 [error] 30#30: *1 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+172.17.0.1 - - [08/Nov/2026:10:26:26 +0000] "GET / HTTP/1.1" 200 30 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36 Edg/157.0.0.0" "-"
+2026/11/08 10:26:26 [error] 31#31: *3 open() "/usr/share/nginx/html/favicon.ico" failed (2: No such file or directory), client: 172.17.0.1, server: localhost, request: "GET /favicon.ico HTTP/1.1", host: "localhost:8080", referrer: "http://localhost:8080/"
+172.17.0.1 - - [08/Nov/2026:10:26:26 +0000] "GET /favicon.ico HTTP/1.1" 404 555 "http://localhost:8080/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36 Edg/157.0.0.0" "-"
+```
+
+<img width="921" height="155" alt="11_01_port_mapping" src="https://github.com/user-attachments/assets/0ec1e4bf-22c1-4544-8dd9-499a51830452" />
+<img width="943" height="380" alt="11_03_access_log" src="https://github.com/user-attachments/assets/5a6b67c2-ca33-4dc0-beb6-406156b51b75" />
+<img width="528" height="359" alt="11_02_browser" src="https://github.com/user-attachments/assets/5235f39f-553e-455d-ac58-b2ab479e64de" />
+
+
 ## 12. Bind Mount
 
 ## 13. Docker Volume 및 데이터 유지
