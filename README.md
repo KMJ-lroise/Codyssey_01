@@ -561,7 +561,169 @@ exit
 
 ## 10. Dockerfile 작성 및 웹 서버 실행
 
+- Get-Content로 확인한 HTML과 Dockerfile
 
+```text
+새로운 크로스 플랫Set-Location "$env:USERPROFILE\source\Codyssey_01"
+>> Get-Location
+>> git statusJH>
+
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+Path
+----
+C:\Users\KJH\source\Codyssey_01
+
+
+PS C:\Users\KJH\source\Codyssey_01> git pull --ff-only
+remote: Enumerating objects: 8, done.
+remote: Counting objects: 100% (8/8), done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 6 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (6/6), 2.54 KiB | 35.00 KiB/s, done.
+From https://github.com/KMJ-lroise/Codyssey_01
+   da8f8e6..0aa9c85  main       -> origin/main
+Updating da8f8e6..0aa9c85
+Fast-forward
+ README.md | 50 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+PS C:\Users\KJH\source\Codyssey_01> New-Item -ItemType Directory -Path .\WebServer\app -Force
+>> Set-Location .\WebServer
+>> Get-Location
+
+
+    디렉터리: C:\Users\KJH\source\Codyssey_01\WebServer
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----      2026-11-08   오후 6:59                app
+
+Drive        : C
+Provider     : Microsoft.PowerShell.Core\FileSystem
+ProviderPath : C:\Users\KJH\source\Codyssey_01\WebServer
+Path         : C:\Users\KJH\source\Codyssey_01\WebServer
+
+
+
+PS C:\Users\KJH\source\Codyssey_01\WebServer> Set-Content -Path .\app\index.html -Value "<h1>Hello, Codyssey!</h1>" -Encoding utf8
+PS C:\Users\KJH\source\Codyssey_01\WebServer> @'
+>> FROM nginx:alpine
+>> COPY app/index.html /usr/share/nginx/html/index.html
+>> EXPOSE 80
+>> '@ | Set-Content -Path .\Dockerfile -Encoding ascii
+PS C:\Users\KJH\source\Codyssey_01\WebServer> Get-Content .\Dockerfile
+>> Get-ChildItem
+FROM nginx:alpine
+COPY app/index.html /usr/share/nginx/html/index.html
+EXPOSE 80
+
+
+    디렉터리: C:\Users\KJH\source\Codyssey_01\WebServer
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----      2026-11-08   오후 7:00                app
+-a----      2026-11-08   오후 7:04             82 Dockerfile
+```
+
+<img width="922" height="912" alt="10_01_dockerfile" src="https://github.com/user-attachments/assets/8215fd4d-44de-49d0-865e-8c935aef6d12" />
+
+<img width="1319" height="690" alt="10_index_html" src="https://github.com/user-attachments/assets/c27252b0-e914-4f2d-8b3b-8cdc6b5258bd" />
+
+----
+
+- 빌드 완료 결과와 docker images
+
+```text
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker build -t codyssey-web .
+[+] Building 13.7s (8/8) FINISHED                                                                                docker:desktop-linux
+ => [internal] load build definition from Dockerfile                                                                             0.2s
+ => => transferring dockerfile: 119B                                                                                             0.0s
+ => [internal] load metadata for docker.io/library/nginx:alpine                                                                  2.6s
+ => [auth] library/nginx:pull token for registry-1.docker.io                                                                     0.0s
+ => [internal] load .dockerignore                                                                                                0.1s
+ => => transferring context: 2B                                                                                                  0.0s
+ => [internal] load build context                                                                                                0.2s
+ => => transferring context: 98B                                                                                                 0.0s
+ => [1/2] FROM docker.io/library/nginx:alpine@sha256:713fc2ebfd92e8217db451477182ee91944b123d2b1ee9fd5a8c6e91ca6c3a11            7.0s
+ => => resolve docker.io/library/nginx:alpine@sha256:713fc2ebfd92e8217db451477182ee91944b123d2b1ee9fd5a8c6e91ca6c3a11            0.1s
+ => => sha256:da90db506dd5f2d604467c4dc38442534f74c9e76c1982df0c262e144bad7bc9 20.55MB / 20.55MB                                 4.7s
+ => => sha256:69d81d5522572d5b7abcc8f594ecbc4cf9bea72402675a419e8d7b516e4c3f14 1.40kB / 1.40kB                                   0.5s
+ => => sha256:b9c6ee6a30f8811636d7273be348906cf0e4e9725378dd54b7d4a3725538cad4 1.21kB / 1.21kB                                   0.6s
+ => => sha256:a746bd1dc828f61bf43b775dcfecb9ded8a3d3b41789915fe135fa6b9fa85965 404B / 404B                                       0.6s
+ => => sha256:c7dfd64eeb02740cc41e9f32ad7f75781882d4c167b77427aa9615d1419c4515 629B / 629B                                       0.3s
+ => => sha256:e011f124249bf1c4be27b3311c3b40cb90dd7737381af1c62b508020790b7bd5 965B / 965B                                       0.3s
+ => => sha256:1abafee971b93c1ae05f03c35c6fb6e3376e75e6f16b590092a822b61ebf10b6 1.94MB / 1.94MB                                   0.9s
+ => => sha256:881fc932939efef04ca120ad44bbd2c0917851eb247aa4995428afb1e80ede17 3.85MB / 3.85MB                                   2.1s
+ => => extracting sha256:881fc932939efef04ca120ad44bbd2c0917851eb247aa4995428afb1e80ede17                                        0.5s
+ => => extracting sha256:1abafee971b93c1ae05f03c35c6fb6e3376e75e6f16b590092a822b61ebf10b6                                        0.6s
+ => => extracting sha256:c7dfd64eeb02740cc41e9f32ad7f75781882d4c167b77427aa9615d1419c4515                                        0.1s
+ => => extracting sha256:e011f124249bf1c4be27b3311c3b40cb90dd7737381af1c62b508020790b7bd5                                        0.1s
+ => => extracting sha256:a746bd1dc828f61bf43b775dcfecb9ded8a3d3b41789915fe135fa6b9fa85965                                        0.1s
+ => => extracting sha256:b9c6ee6a30f8811636d7273be348906cf0e4e9725378dd54b7d4a3725538cad4                                        0.1s
+ => => extracting sha256:69d81d5522572d5b7abcc8f594ecbc4cf9bea72402675a419e8d7b516e4c3f14                                        0.1s
+ => => extracting sha256:da90db506dd5f2d604467c4dc38442534f74c9e76c1982df0c262e144bad7bc9                                        1.2s
+ => [2/2] COPY app/index.html /usr/share/nginx/html/index.html                                                                   0.3s
+ => exporting to image                                                                                                           2.9s
+ => => exporting layers                                                                                                          0.4s
+ => => exporting manifest sha256:3b7ad2c835f1482d55d6af0cacaf577066346f28313f7a2872933449e9f5601a                                0.1s
+ => => exporting config sha256:d57c6e11ba20f0fc638b1d7c43e242e477b3eb8b39ad2e4c9c8ac6540ee0a6d2                                  0.1s
+ => => exporting attestation manifest sha256:ddc1806a2988976189ca46ff2e544eab8a9b42a62266027a7a890327bbaba2cb                    0.2s
+ => => exporting manifest list sha256:1f8a2cc0f3601f79196685c0a5542a65481d18b3f563e75d52c944dd1a80e824                           0.1s
+ => => naming to docker.io/library/codyssey-web:latest                                                                           0.0s
+ => => unpacking to docker.io/library/codyssey-web:latest                                                                        2.0s
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker images
+                                                                                                                 i Info →   U  In Use
+IMAGE                 ID             DISK USAGE   CONTENT SIZE   EXTRA
+codyssey-web:latest   1f8a2cc0f360       93.7MB         26.4MB
+hello-world:latest    c567b231f656       25.9kB         9.49kB    U
+ubuntu:latest         6a06111c3b0a        163MB         45.9MB    U
+```
+<img width="945" height="609" alt="10_02_image_build" src="https://github.com/user-attachments/assets/e955e920-41c2-4aa7-b6ec-f3287e2d1ecd" />
+
+----
+
+- docker ps, 로그, 컨테이너 내부 HTML 확인 결과
+
+```text
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker run -d --name codyssey-server codyssey-web
+a3f1ddcec96246e2bdb031377a1bfb9527bad3b47f5ed9560c54be7edc0fbf14
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker ps
+CONTAINER ID   IMAGE          COMMAND                   CREATED          STATUS          PORTS     NAMES
+a3f1ddcec962   codyssey-web   "/docker-entrypoint.…"   16 seconds ago   Up 15 seconds   80/tcp    codyssey-server
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker logs codyssey-server
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+/docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+/docker-entrypoint.sh: Configuration complete; ready for start up
+2026/11/08 10:13:00 [notice] 1#1: using the "epoll" event method
+2026/11/08 10:13:00 [notice] 1#1: nginx/1.31.8
+2026/11/08 10:13:00 [notice] 1#1: built by gcc 15.2.0 (Alpine 15.2.0)
+2026/11/08 10:13:00 [notice] 1#1: OS: Linux 6.18.40.1-microsoft-standard-WSL2
+2026/11/08 10:13:00 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+2026/11/08 10:13:00 [notice] 1#1: start worker processes
+2026/11/08 10:13:00 [notice] 1#1: start worker process 30
+2026/11/08 10:13:00 [notice] 1#1: start worker process 31
+2026/11/08 10:13:00 [notice] 1#1: start worker process 32
+2026/11/08 10:13:00 [notice] 1#1: start worker process 33
+2026/11/08 10:13:00 [notice] 1#1: start worker process 34
+2026/11/08 10:13:00 [notice] 1#1: start worker process 35
+2026/11/08 10:13:00 [notice] 1#1: start worker process 36
+2026/11/08 10:13:00 [notice] 1#1: start worker process 37
+PS C:\Users\KJH\source\Codyssey_01\WebServer> docker exec codyssey-server cat /usr/share/nginx/html/index.html
+﻿<h1>Hello, Codyssey!</h1>
+```
+
+<img width="808" height="439" alt="10_03_webserver_running" src="https://github.com/user-attachments/assets/73a6a13c-ffcf-4582-9db8-88e0ca499a43" />
 
 
 ## 11. 포트 포워딩
