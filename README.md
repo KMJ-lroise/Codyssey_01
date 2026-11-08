@@ -257,6 +257,7 @@ test.txt 4F-81\User:(M)
 ## 8. Docker 설치 및 환경 확인
 - 교육장 컴퓨터 재시작 시 프로그램이 지워지는 관계로 8번부터는 개인 노트북으로 과제를 진행.
 
+----
 - wsl 확인
 ----
 PS C:\WINDOWS\system32> wsl --version
@@ -274,6 +275,7 @@ PS C:\WINDOWS\system32> wsl --list --verbose
 
 <img width="803" height="606" alt="08_03_wsl_ready" src="https://github.com/user-attachments/assets/5ae8a740-dbc6-47ad-ae7b-fb7cfabca524" />
 
+----
 - docker engine check
 ----
 PS C:\WINDOWS\system32> docker version
@@ -413,12 +415,118 @@ Server:
  Live Restore Enabled: false
  Firewall Backend: iptables
 
-<img width="530" height="769" alt="08_04_docker_engine_check_03" src="https://github.com/user-attachments/assets/1d5bb4bd-e4d7-4491-b460-01fc6af3bea4" />
-<img width="610" height="732" alt="08_04_docker_engine_check_02" src="https://github.com/user-attachments/assets/f256c0ff-e6cb-4bd3-a1bd-d91e7b441fbb" />
 <img width="432" height="424" alt="08_04_docker_engine_check_01" src="https://github.com/user-attachments/assets/0012f950-8042-4acc-88b7-9cf29fe5ac6b" />
+<img width="610" height="732" alt="08_04_docker_engine_check_02" src="https://github.com/user-attachments/assets/f256c0ff-e6cb-4bd3-a1bd-d91e7b441fbb" />
+<img width="530" height="769" alt="08_04_docker_engine_check_03" src="https://github.com/user-attachments/assets/1d5bb4bd-e4d7-4491-b460-01fc6af3bea4" />
 
 
 ## 9. Docker 컨테이너 실행 및 관리
+
+- Docker 컨테이너 실행
+
+PS C:\WINDOWS\system32> docker run --name codyssey-hello hello-world
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+4f55086f7dd0: Pull complete
+d5e71e642bf5: Download complete
+Digest: sha256:c567b231f65614688711a75f31518a064258a51d442117a3e771a3a8fdba78ef
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
+ <img width="565" height="404" alt="09_01_hello_world" src="https://github.com/user-attachments/assets/185b3a95-6df5-4a80-a69e-849902d7ec06" />
+----
+
+- 컨테이너와 이미지 목록 확인
+
+PS C:\WINDOWS\system32> docker ps
+CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES
+PS C:\WINDOWS\system32> docker ps -a
+CONTAINER ID   IMAGE         COMMAND    CREATED         STATUS                     PORTS     NAMES
+9b07db8a5302   hello-world   "/hello"   2 minutes ago   Exited (0) 2 minutes ago             codyssey-hello
+PS C:\WINDOWS\system32> docker images
+                                                                                                               i Info →   U  In Use
+IMAGE                ID             DISK USAGE   CONTENT SIZE   EXTRA
+hello-world:latest   c567b231f656       25.9kB         9.49kB    U
+
+<img width="929" height="134" alt="09_02_container_list" src="https://github.com/user-attachments/assets/56f21558-e81b-4b78-a762-551ffd6e0398" />
+----
+
+- Ubuntu 실행 후 정보 확인
+
+PS C:\WINDOWS\system32> docker run -it --name codyssey-ubuntu ubuntu bash
+Unable to find image 'ubuntu:latest' locally
+latest: Pulling from library/ubuntu
+f3f25b84a7d7: Pull complete
+edafa32f5d9e: Pull complete
+21594acc2d8b: Download complete
+Digest: sha256:6a06111c3b0a8600feadb270aec771dc239bf407b25625f93f44ab00e11f4d3c
+Status: Downloaded newer image for ubuntu:latest
+root@bcb80ac5ecac:/# cat /etc/os-release
+PRETTY_NAME="Ubuntu 26.04.1 LTS"
+NAME="Ubuntu"
+VERSION_ID="26.04"
+VERSION="26.04.1 LTS (Resolute Raccoon)"
+VERSION_CODENAME=resolute
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=resolute
+LOGO=ubuntu-logo
+
+<img width="588" height="313" alt="09_03_ubuntu_container" src="https://github.com/user-attachments/assets/42fa7673-ba61-44aa-b5bf-f1c627e88127" />
+----
+
+- 컨테이너에서 나가고 재실행
+
+root@bcb80ac5ecac:/# exit
+exit
+PS C:\WINDOWS\system32> docker ps -a
+CONTAINER ID   IMAGE         COMMAND    CREATED          STATUS                      PORTS     NAMES
+bcb80ac5ecac   ubuntu        "bash"     8 minutes ago    Exited (0) 16 seconds ago             codyssey-ubuntu
+9b07db8a5302   hello-world   "/hello"   14 minutes ago   Exited (0) 14 minutes ago             codyssey-hello
+PS C:\WINDOWS\system32> docker start -ai codyssey-ubuntu
+root@bcb80ac5ecac:/# cat /etc/os-release
+PRETTY_NAME="Ubuntu 26.04.1 LTS"
+NAME="Ubuntu"
+VERSION_ID="26.04"
+VERSION="26.04.1 LTS (Resolute Raccoon)"
+VERSION_CODENAME=resolute
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=resolute
+LOGO=ubuntu-logo
+root@bcb80ac5ecac:/# exit
+exit
+
+<img width="784" height="325" alt="09_04_container_restart" src="https://github.com/user-attachments/assets/388224cf-08b3-4aae-be23-95e6851290c4" />
+
 
 ## 10. Dockerfile 작성 및 웹 서버 실행
 
