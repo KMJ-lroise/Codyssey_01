@@ -4,6 +4,7 @@
 - 가상 머신 플랫폼 활성화 완료 메시지 확인
 - 재부팅 전 wsl --status에서 미설치로 표시되는 현상 확인
 
+```text
 PS C:\WINDOWS\system32> wsl --status
 Linux용 Windows 하위 시스템 설치되어 있지 않습니다. 'wsl.exe --install'을 실행하여 설치할 수 있습니다.
 자세한 내용은 https://aka.ms/wslinstall
@@ -25,6 +26,7 @@ Windows 선택적 구성 요소 설치 중: VirtualMachinePlatform
 작업을 완료했습니다.
 요청한 작업이 잘 실행되었습니다. 시스템을 다시 시작하면 변경 사항이 적용됩니다.
 요청한 작업이 잘 실행되었습니다. 시스템을 다시 시작하면 변경 사항이 적용됩니다.
+```
 
 - WSL 3.0.3 설치 완료 메시지 확인
 - VirtualMachinePlatform 기능 활성화 완료
@@ -107,7 +109,7 @@ d-r---      2026-10-15   오전 9:30                Videos
 <img width="597" height="592" alt="04_terminal_basic" src="https://github.com/user-attachments/assets/0bc3f3af-3937-495b-b823-2e74e1a37ce4" />
 
 
-## 5. 폴더 생성 및 이동
+## 5. 폴더 이동 및 현재 위치 확인
 
 PS C:\Users\User> cd Desktop
 PS C:\Users\User\Desktop> Get-Location
@@ -196,6 +198,7 @@ Mode                 LastWriteTime         Length Name
 ## 7. 파일 권한 확인 및 변경
 - Get-Acl, icacls의 역할과 권한 변경 결과.
 - 파일을 누가 읽고, 수정하고, 실행할 수 있는지 정함.
+- 현재 사용자에게 수정 권한을 추가했으며, 기존의 상속된 전체 제어 권한은 유지됨.
 
 PS C:\Users\User\Codyssey_practice> Get-Acl test.txt
 
@@ -526,7 +529,7 @@ root@bcb80ac5ecac:/# exit
 exit
 
 <img width="784" height="325" alt="09_04_container_restart" src="https://github.com/user-attachments/assets/388224cf-08b3-4aae-be23-95e6851290c4" />
-
+---
 
 ## 10. Dockerfile 작성 및 웹 서버 실행
 
