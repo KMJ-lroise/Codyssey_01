@@ -287,9 +287,10 @@ Windows 버전: 10.0.19045.6466
 PS C:\WINDOWS\system32> wsl --list --verbose
   NAME      STATE           VERSION
 * Ubuntu    Running         2
+```
 
 <img width="803" height="606" alt="08_03_wsl_ready" src="https://github.com/user-attachments/assets/5ae8a740-dbc6-47ad-ae7b-fb7cfabca524" />
-```
+
 ----
 - docker engine check
 
@@ -438,7 +439,12 @@ Server:
 
 
 ## 9. Docker 컨테이너 실행 및 관리
+- Unable to find image ... locally: 로컬에 이미지가 없어 다운로드를 시작한 것이며, 이후 다운로드와 실행이 성공함.
+- Hello World의 Exited (0): 메시지를 출력한 후 정상 종료됨.
+- Ubuntu에서 exit 실행: 이번 컨테이너의 주 실행 프로세스인 bash가 종료되어 컨테이너도 종료됨.
+- docker start -ai: 기존 컨테이너를 다시 시작하고 터미널에 연결함.
 
+----
 - Docker 컨테이너 실행
 
 ```text
@@ -555,6 +561,9 @@ exit
 
 ## 10. Dockerfile 작성 및 웹 서버 실행
 
+
+
+
 ## 11. 포트 포워딩
 
 ## 12. Bind Mount
@@ -562,8 +571,57 @@ exit
 ## 13. Docker Volume 및 데이터 유지
 
 ## 14. Git 및 GitHub 연동
+````text
+PS C:\WINDOWS\system32> git --version
+git version 2.56.0.windows.4
+PS C:\WINDOWS\system32> code --version
+1.143.1
+e646868227c3e3a9e3f24277c8c7220be42c0be7
+x64
+````
+<img width="295" height="91" alt="14_01_git_vscode_check" src="https://github.com/user-attachments/assets/3558f951-ed51-492f-beed-08a2662ef974" />
+
 
 ## 15. 트러블슈팅
+- VS Code는 설치 성공, Git은 다운로드 중 시간 초과(504 오류)로 실패
+- 다시 다운로드를 실행해봤지만 동일하게 504 오류 발생
+- 인터넷에 접속 -> Git 공식 Windows 설치 페이지에서 Git for Windows/x64 Setup 파일을 다운받아 직접 설치 -> Git 설치 (문제 해결)
+- 오류 발생 화면은 캡처하지 못하여 터미널의 실제 출력 내용을 텍스트로만 첨부
+- 공식 설치 파일로 직접 설치한 뒤, git --version으로 정상 실행을 확인하고 해당 내용을 텍스트와 화면 캡처로 첨부
+----
+
+- 오류 발생 내용
+````text
+PS C:\WINDOWS\system32> winget install --id Git.Git -e --source winget
+찾음 Git [Git.Git] 버전 2.56.0.4
+이 응용 프로그램의 라이선스는 그 소유자가 사용자에게 부여했습니다.
+Microsoft는 타사 패키지에 대한 책임을 지지 않고 라이선스를 부여하지도 않습니다.
+다운로드 중 https://github.com/git-for-windows/git/releases/download/v2.56.0.windows.4/Git-2.56.0.4-64-bit.exe
+명령을 실행하는 동안 예기치 않은 오류가 발생했습니다.
+Download request status is not success.
+0x801901f8 : Gateway timeout (504).
+PS C:\WINDOWS\system32> winget install --id Microsoft.VisualStudioCode -e --source winget
+찾음 Microsoft Visual Studio Code [Microsoft.VisualStudioCode] 버전 1.143.1
+이 응용 프로그램의 라이선스는 그 소유자가 사용자에게 부여했습니다.
+Microsoft는 타사 패키지에 대한 책임을 지지 않고 라이선스를 부여하지도 않습니다.
+다운로드 중 https://vscode.download.prss.microsoft.com/dbazure/download/stable/e646868227c3e3a9e3f24277c8c7220be42c0be7/VSCodeUserSetup-x64-1.143.1.exe
+  ██████████████████████████████   237 MB /  237 MB
+설치 관리자 해시를 확인했습니다.
+패키지 설치를 시작하는 중...
+설치 성공
+````
+----
+
+- 오류 해결 후
+````text
+PS C:\WINDOWS\system32> git --version
+git version 2.56.0.windows.4
+PS C:\WINDOWS\system32> code --version
+1.143.1
+e646868227c3e3a9e3f24277c8c7220be42c0be7
+x64
+````
+<img width="295" height="91" alt="14_01_git_vscode_check" src="https://github.com/user-attachments/assets/3558f951-ed51-492f-beed-08a2662ef974" />
 
 ## 16. 최종 결과
 
