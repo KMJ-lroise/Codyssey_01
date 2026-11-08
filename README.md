@@ -1,4 +1,4 @@
-# Codyssey_01
+<img width="1436" height="898" alt="image" src="https://github.com/user-attachments/assets/ad5b9270-0f3a-4e30-9a22-8f6358d383c8" /># Codyssey_01
 
 ## 1. 설치 명령 실행 및 설치 과정 확인
 - 가상 머신 플랫폼 활성화 완료 메시지 확인
@@ -580,6 +580,55 @@ e646868227c3e3a9e3f24277c8c7220be42c0be7
 x64
 ````
 <img width="295" height="91" alt="14_01_git_vscode_check" src="https://github.com/user-attachments/assets/3558f951-ed51-492f-beed-08a2662ef974" />
+
+----
+
+```text
+새로운 크로스 플랫폼 PowerShell 사용 https://aka.ms/pscore6
+                 New-Item -ItemType Directory -Path "$env:USERPROFILE\source" -Force
+>> Set-Location "$env:USERPROFILE\source"
+
+
+    디렉터리: C:\Users\KJH
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----      2026-11-08   오후 6:25                source
+
+
+PS C:\Users\KJH\source> git clone https://github.com/KMJ-lroise/Codyssey_01.git
+Cloning into 'Codyssey_01'...
+remote: Enumerating objects: 45, done.
+remote: Counting objects: 100% (45/45), done.
+remote: Compressing objects: 100% (29/29), done.
+remote: Total 45 (delta 13), reused 0 (delta 0), pack-reused 0 (from 0)
+Receiving objects: 100% (45/45), 20.84 KiB | 2.08 MiB/s, done.
+Resolving deltas: 100% (13/13), done.
+PS C:\Users\KJH\source> Set-Location "$env:USERPROFILE\source\Codyssey_01"
+>> git status
+>> git remote -v
+>> Get-ChildItem
+>> code .
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+origin  https://github.com/KMJ-lroise/Codyssey_01.git (fetch)
+origin  https://github.com/KMJ-lroise/Codyssey_01.git (push)
+
+
+    디렉터리: C:\Users\KJH\source\Codyssey_01
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+-a----      2026-11-08   오후 6:25          23988 README.md
+```
+<img width="598" height="578" alt="14_02_repository_clone" src="https://github.com/user-attachments/assets/32d82c6f-4a29-4bcf-a19e-e9fedc0bd770" />
+
+-vs code 연동
+<img width="1436" height="898" alt="VS Code" src="https://github.com/user-attachments/assets/465bdf84-4e87-49d1-9e0a-edb22461f5d8" />
 
 
 ## 15. 트러블슈팅
