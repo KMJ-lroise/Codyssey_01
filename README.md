@@ -1124,7 +1124,14 @@ nothing to commit, working tree clean
 
 <img width="926" height="482" alt="git push" src="https://github.com/user-attachments/assets/a3be31d4-1441-492a-bfa8-cfa35b9e800b" />
 
-<img width="1795" height="1024" alt="download" src="https://github.com/user-attachments/assets/0aa06716-7a23-4423-9f7f-917a456373ef" />
+### VS Code GitHub 로그인 및 저장소 연동 확인
+
+- VS Code 계정 메뉴에서 KMJ-lroise (GitHub) 로그인 상태를 확인했다.
+- Codyssey_01 저장소를 열고 WebServer 폴더와 Dockerfile을 확인했다.
+- 왼쪽 아래 상태 표시줄에서 현재 브랜치가 main임을 확인했다.
+- 아래 화면에는 비밀번호, 토큰, 인증 코드가 포함되어 있지 않다.
+
+<img width="1795" height="1024" alt="VS Code GitHub 로그인 및 저장소 연동" src="https://github.com/user-attachments/assets/0aa06716-7a23-4423-9f7f-917a456373ef" />
 
 
 ## 15. 트러블슈팅
