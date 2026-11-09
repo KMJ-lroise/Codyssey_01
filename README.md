@@ -1015,6 +1015,112 @@ Mode                 LastWriteTime         Length Name
 - vs code 연동
 <img width="1436" height="898" alt="VS Code" src="https://github.com/user-attachments/assets/465bdf84-4e87-49d1-9e0a-edb22461f5d8" />
 
+----
+
+### Git 사용자 정보 및 기본 브랜치 설정
+
+- Git 사용자 이름과 GitHub noreply 이메일을 설정했다.
+- 기본 브랜치를 main으로 설정했다.
+- git config --list 출력으로 설정 내용을 확인했다.
+
+```text
+PS C:\Users\KJH\source\Codyssey_01> git config --global user.email "352281822+KMJ-lroise@users.noreply.github.com"
+PS C:\Users\KJH\source\Codyssey_01> git config --global user.name "KMJ"
+PS C:\Users\KJH\source\Codyssey_01> git config --global init.defaultBranch main
+PS C:\Users\KJH\source\Codyssey_01> git config --list
+diff.astextplain.textconv=astextplain
+filter.lfs.clean=git-lfs clean -- %f
+filter.lfs.smudge=git-lfs smudge -- %f
+filter.lfs.process=git-lfs filter-process
+filter.lfs.required=true
+http.sslbackend=schannel
+core.autocrlf=true
+core.fscache=true
+core.symlinks=false
+pull.rebase=false
+credential.helper=manager
+credential.https://dev.azure.com.usehttppath=true
+init.defaultbranch=master
+user.email=352281822+KMJ-lroise@users.noreply.github.com
+user.name=KMJ
+init.defaultbranch=main
+core.repositoryformatversion=0
+core.filemode=false
+core.bare=false
+core.logallrefupdates=true
+core.symlinks=false
+core.ignorecase=true
+remote.origin.url=https://github.com/KMJ-lroise/Codyssey_01.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+branch.main.remote=origin
+branch.main.merge=refs/heads/main
+branch.main.vscode-merge-base=origin/main
+```
+
+```text
+PS C:\Users\KJH\source\Codyssey_01> git config --get init.defaultBranch
+main
+```
+
+### Dockerfile 및 웹 소스 업로드
+
+- WebServer/Dockerfile과 WebServer/app/index.html을 Git에 추가했다.
+- 변경 내용을 확인한 뒤 커밋했다.
+- 브라우저 인증 후 GitHub의 main 브랜치로 push했다.
+- git status에서 원격 브랜치와 동기화되었으며 작업 폴더에 미커밋 변경이 없음을 확인했다.
+
+```text
+PS C:\Users\KJH\source\Codyssey_01> git config --get init.defaultBranch
+main
+PS C:\Users\KJH\source\Codyssey_01> git add WebServer/Dockerfile WebServer/app/index.html
+warning: in the working copy of 'WebServer/Dockerfile', LF will be replaced by CRLF the next time Git touches it
+PS C:\Users\KJH\source\Codyssey_01> git diff --cached --stat
+ WebServer/Dockerfile     | 3 +++
+ WebServer/app/index.html | 1 +
+ 2 files changed, 4 insertions(+)
+PS C:\Users\KJH\source\Codyssey_01> git diff --cached
+diff --git a/WebServer/Dockerfile b/WebServer/Dockerfile
+new file mode 100644
+index 0000000..29887f1
+--- /dev/null
++++ b/WebServer/Dockerfile
+@@ -0,0 +1,3 @@
++FROM nginx:alpine
++COPY app/index.html /usr/share/nginx/html/index.html
++EXPOSE 80
+diff --git a/WebServer/app/index.html b/WebServer/app/index.html
+new file mode 100644
+index 0000000..f054482
+--- /dev/null
++++ b/WebServer/app/index.html
+@@ -0,0 +1 @@
++﻿<h1>Bind Mount Success!</h1>
+PS C:\Users\KJH\source\Codyssey_01> git commit -m "Add Dockerfile and web page"
+[main 3234d6b] Add Dockerfile and web page
+ 2 files changed, 4 insertions(+)
+ create mode 100644 WebServer/Dockerfile
+ create mode 100644 WebServer/app/index.html
+PS C:\Users\KJH\source\Codyssey_01> git push origin main
+info: please complete authentication in your browser...
+Enumerating objects: 7, done.
+Counting objects: 100% (7/7), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (6/6), 543 bytes | 181.00 KiB/s, done.
+Total 6 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To https://github.com/KMJ-lroise/Codyssey_01.git
+   017ee7a..3234d6b  main -> main
+PS C:\Users\KJH\source\Codyssey_01> git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+```
+
+<img width="527" height="449" alt="login" src="https://github.com/user-attachments/assets/ffcb3690-e331-408c-a9db-11c2dc72dd75" />
+
+<img width="926" height="482" alt="git push" src="https://github.com/user-attachments/assets/a3be31d4-1441-492a-bfa8-cfa35b9e800b" />
+
 
 ## 15. 트러블슈팅
 - VS Code는 설치 성공, Git은 다운로드 중 시간 초과(504 오류)로 실패
