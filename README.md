@@ -1400,54 +1400,47 @@ security features and capabilities please refer to
 ----
 
 ### 환경 변수 활용
+- NGINX_PORT 환경 변수로 컨테이너 내부 서버 포트를 8085에서 8095로 변경했다.
+- NGINX 설정 파일의 listen 값과 docker compose ps의 포트 매핑으로 변경을 확인했다.
+- 호스트 접속 포트는 8081로 유지했으며, 변경 후에도 HTTP 200 OK 응답을 확인했다.
+- 검증 후 환경 변수를 제거하고 컨테이너를 재생성하여 기본 포트 8085로 복원했다.
+  
 ```text
-PS C:\Users\KJH\source\Codyssey_01> docker compose exec web wget -qO- http://helper:80
-<!DOCTYPE html>
-<html>
-<head>
-<title>Welcome to nginx!</title>
-<style>
-html { color-scheme: light dark; }
-body { width: 35em; margin: 0 auto;
-font-family: Tahoma, Verdana, Arial, sans-serif; }
-</style>
-</head>
-<body>
-<h1>Welcome to nginx!</h1>
-<p>If you see this page, nginx is successfully installed and working.
-Further configuration is required for the web server, reverse proxy,
-API gateway, load balancer, content cache, or other features.</p>
-
-<p>For online documentation and support please refer to
-<a href="https://nginx.org/">nginx.org</a>.<br/>
-To engage with the community please visit
-<a href="https://community.nginx.org/">community.nginx.org</a>.<br/>
-For enterprise grade support, professional services, additional
-security features and capabilities please refer to
-<a href="https://f5.com/nginx">f5.com/nginx</a>.</p>
-
-<p><em>Thank you for using nginx.</em></p>
-</body>
-</html>
-[+] up 1/2
-[+] up 2/2
-s   listen 8085;
- ✔ Container codyssey_01-web-1    Started                                                                                              1.3s
-NAME                   IMAGE             COMMAND                   SERVICE   CREATED         STATUS                  PORTS
-codyssey_01-helper-1   nginx:alpine      "/docker-entrypoint.…"   helper    5 minutes ago   Up 5 minutes            80/tcp
-codyssey_01-web-1      codyssey_01-web   "/docker-entrypoint.…"   web       1 second ago    Up Less than a second   127.0.0.1:8081->8095/tcp  }
+PS C:\Users\KJH\source\Codyssey_01> Set-Location "$env:USERPROFILE\source\Codyssey_01"
+PS C:\Users\KJH\source\Codyssey_01> docker compose exec web cat /etc/nginx/conf.d/default.conf
 server {
-    listen 8095;source\Codyssey_01> $env:NGINX_PORT = "8095"
+    listen 8085;
     server_name localhost;
->> docker compose up -d
-    location / {e ps
-        root /usr/share/nginx/html;/nginx/conf.d/default.conf
-        index index.html;alhost:8081
+
+    location / {
+        root /usr/share/nginx/html;
+        index index.html;
     }
 }
+PS C:\Users\KJH\source\Codyssey_01> $env:NGINX_PORT = "8095"
+PS C:\Users\KJH\source\Codyssey_01> docker compose --progress plain up -d web
+ Container codyssey_01-web-1 Recreate
+ Container codyssey_01-web-1 Recreated
+ Container codyssey_01-web-1 Starting
+ Container codyssey_01-web-1 Started
+PS C:\Users\KJH\source\Codyssey_01> docker compose ps
+NAME                   IMAGE             COMMAND                   SERVICE   CREATED          STATUS          PORTS
+codyssey_01-helper-1   nginx:alpine      "/docker-entrypoint.…"   helper    11 minutes ago   Up 11 minutes   80/tcp
+codyssey_01-web-1      codyssey_01-web   "/docker-entrypoint.…"   web       10 seconds ago   Up 8 seconds    127.0.0.1:8081->8095/tcp
+PS C:\Users\KJH\source\Codyssey_01> docker compose exec web cat /etc/nginx/conf.d/default.conf
+server {
+    listen 8095;
+    server_name localhost;
+
+    location / {
+        root /usr/share/nginx/html;
+        index index.html;
+    }
+}
+PS C:\Users\KJH\source\Codyssey_01> curl.exe -i http://localhost:8081
 HTTP/1.1 200 OK
 Server: nginx/1.31.8
-Date: Mon, 09 Nov 2026 08:15:25 GMT
+Date: Mon, 09 Nov 2026 08:52:35 GMT
 Content-Type: text/html
 Content-Length: 33
 Last-Modified: Sun, 08 Nov 2026 10:39:04 GMT
@@ -1456,10 +1449,20 @@ ETag: "6af05148-21"
 Accept-Ranges: bytes
 
 ﻿<h1>Bind Mount Success!</h1>
+PS C:\Users\KJH\source\Codyssey_01> Remove-Item Env:NGINX_PORT
+PS C:\Users\KJH\source\Codyssey_01> docker compose --progress plain up -d web
+ Container codyssey_01-web-1 Recreate
+ Container codyssey_01-web-1 Recreated
+ Container codyssey_01-web-1 Starting
+ Container codyssey_01-web-1 Started
+PS C:\Users\KJH\source\Codyssey_01> docker compose ps
+NAME                   IMAGE             COMMAND                   SERVICE   CREATED          STATUS          PORTS
+codyssey_01-helper-1   nginx:alpine      "/docker-entrypoint.…"   helper    12 minutes ago   Up 12 minutes   80/tcp
+codyssey_01-web-1      codyssey_01-web   "/docker-entrypoint.…"   web       7 seconds ago    Up 6 seconds    127.0.0.1:8081->8085/tcp
 ```
 ----
 
-## Compose 운영 명령
+### Compose 운영 명령
 | 명령 | 확인한 내용 |
 |---|---|
 | `up -d` | 서비스를 백그라운드로 실행 |
