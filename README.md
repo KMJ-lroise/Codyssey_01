@@ -1124,6 +1124,8 @@ nothing to commit, working tree clean
 
 <img width="926" height="482" alt="git push" src="https://github.com/user-attachments/assets/a3be31d4-1441-492a-bfa8-cfa35b9e800b" />
 
+<img width="1795" height="1024" alt="download" src="https://github.com/user-attachments/assets/0aa06716-7a23-4423-9f7f-917a456373ef" />
+
 
 ## 15. 트러블슈팅
 - VS Code는 설치 성공, Git은 다운로드 중 시간 초과(504 오류)로 실패
