@@ -1182,6 +1182,381 @@ x64
 - 이후 mv의 cannot stat	이동하려는 원본 파일이 당시 존재하지 않음 ->	마지막 목록에서 삭제 대상이 없는 상태 확인
 
 
+## 16. 선택 미션
+
+### Compose 단일 서비스
+```text
+PS C:\Users\KJH\source\Codyssey_01> New-Item -ItemType Directory -Path .\WebServer\templates -Force
+>>
+>> @'
+>> server {
+>>     listen ${NGINX_PORT};
+>>     server_name localhost;
+>>
+>>     location / {
+>>         root /usr/share/nginx/html;
+>>         index index.html;
+>>     }
+>> }
+>> '@ | Set-Content .\WebServer\templates\default.conf.template -Encoding ascii
 
 
+    디렉터리: C:\Users\KJH\source\Codyssey_01\WebServer
+
+
+Mode                 LastWriteTime         Length Name
+----                 -------------         ------ ----
+d-----      2026-11-09   오후 5:05                templates
+
+
+PS C:\Users\KJH\source\Codyssey_01> @'
+>> services:
+>>   web:
+>>     build: ./WebServer
+>>     ports:
+>>       - "127.0.0.1:8081:${NGINX_PORT:-8085}"
+>>     environment:
+>>       NGINX_PORT: "${NGINX_PORT:-8085}"
+>>     volumes:
+>>       - ./WebServer/templates/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+>> '@ | Set-Content .\docker-compose.yml -Encoding ascii
+PS C:\Users\KJH\source\Codyssey_01> docker compose config
+>> docker compose up -d --build web
+>> docker compose ps
+>> curl.exe -i http://localhost:8081
+>> docker compose logs --tail 30 web
+name: codyssey_01
+services:
+  web:
+    environment:
+      NGINX_PORT: "8085"
+    networks:
+      default: null
+    volumes:
+      - type: bind
+        source: C:\Users\KJH\source\Codyssey_01\WebServer\templates\default.conf.template
+        target: /etc/nginx/templates/default.conf.template
+        read_only: true
+        bind: {}
+    build:
+      context: C:\Users\KJH\source\Codyssey_01\WebServer
+      dockerfile: Dockerfile
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8085
+        published: "8081"
+        protocol: tcp
+networks:
+  default:
+    name: codyssey_01_default
+[+] Building 2.5s (9/9) FINISHED
+ => [internal] load local bake definitions                                                                                            0.2s
+ => => reading from stdin 541B                                                                                                        0.2s
+ => [internal] load build definition from Dockerfile                                                                                  0.1s
+ => => transferring dockerfile: 119B                                                                                                  0.0s
+ => [internal] load metadata for docker.io/library/nginx:alpine                                                                       0.1s
+ => [internal] load .dockerignore                                                                                                     0.1s
+ => => transferring context: 2B                                                                                                       0.0s
+ => [internal] load build context                                                                                                     0.1s
+ => => transferring context: 101B                                                                                                     0.0s
+ => CACHED [1/2] FROM docker.io/library/nginx:alpine@sha256:713fc2ebfd92e8217db451477182ee91944b123d2b1ee9fd5a8c6e91ca6c3a11          0.1s
+ => => resolve docker.io/library/nginx:alpine@sha256:713fc2ebfd92e8217db451477182ee91944b123d2b1ee9fd5a8c6e91ca6c3a11                 0.1s
+ => [2/2] COPY app/index.html /usr/share/nginx/html/index.html                                                                        0.1s
+ => exporting to image                                                                                                                0.9s
+ => => exporting layers                                                                                                               0.4s
+ => => exporting manifest sha256:1566f6177bb2aca3f935402b8ee65ce6c84cb7da716deae6a0796a890d4c3848                                     0.1s
+ => => exporting config sha256:e629d2260e24b4941d4775b813711755a0a42276ef85f81cab657cb450d94765                                       0.1s
+ => => exporting attestation manifest sha256:bb8a3279f6764a1c25fe35638305ab520ac52706d0a63b5b6d3e4c0ff5d5e050                         0.1s
+ => => exporting manifest list sha256:0481f1dc7214b3821472ccec93b09f39219abd56db9b3c9b2e875c8fc31de9f8                                0.1s
+ => => naming to docker.io/library/codyssey_01-web:latest                                                                             0.0s
+ => => unpacking to docker.io/library/codyssey_01-web:latest                                                                          0.1s
+ => resolving provenance for metadata file                                                                                            0.0s
+[+] up 1/2
+[+] up 2/3
+[+] up 3/3
+ ✔ Network codyssey_01_default Created                                                                                                 0.1
+s
+ ✔ Container codyssey_01-web-1 Started                                                                                                 1.0s
+NAME                IMAGE             COMMAND                   SERVICE   CREATED         STATUS                  PORTS
+codyssey_01-web-1   codyssey_01-web   "/docker-entrypoint.…"   web       2 seconds ago   Up Less than a second   127.0.0.1:8081->8085/tcp
+HTTP/1.1 200 OK
+Server: nginx/1.31.8
+Date: Mon, 09 Nov 2026 08:06:02 GMT
+Content-Type: text/html
+Content-Length: 33
+Last-Modified: Sun, 08 Nov 2026 10:39:04 GMT
+Connection: keep-alive
+ETag: "6af05148-21"
+Accept-Ranges: bytes
+
+﻿<h1>Bind Mount Success!</h1>
+web-1  | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+web-1  | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+web-1  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+web-1  | 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+web-1  | 10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+web-1  | /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+web-1  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+web-1  | 20-envsubst-on-templates.sh: Running envsubst on /etc/nginx/templates/default.conf.template to /etc/nginx/conf.d/default.conf
+web-1  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+web-1  | /docker-entrypoint.sh: Configuration complete; ready for start up
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: using the "epoll" event method
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: nginx/1.31.8
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: built by gcc 15.2.0 (Alpine 15.2.0)
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: OS: Linux 6.18.40.1-microsoft-standard-WSL2
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: start worker processes
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: start worker process 36
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: start worker process 37
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: start worker process 38
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: start worker process 39
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: start worker process 40
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: start worker process 41
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: start worker process 42
+web-1  | 2026/11/09 08:06:02 [notice] 1#1: start worker process 43
+web-1  | 172.18.0.1 - - [09/Nov/2026:08:06:02 +0000] "GET / HTTP/1.1" 200 33 "-" "curl/8.13.0" "-"
+```
+<img width="669" height="372" alt="Compose 단일 서비스" src="https://github.com/user-attachments/assets/06f8ff45-b87f-4fc3-8a5e-8b0271c8132b" />
+----
+
+### Compose 멀티 컨테이너
+- web 컨테이너에서 helper라는 서비스 이름으로 HTTP 통신했음
+```text
+PS C:\Users\KJH\source\Codyssey_01> @'
+>>
+>>   helper:
+>>     image: nginx:alpine
+>> '@ | Add-Content .\docker-compose.yml -Encoding ascii
+PS C:\Users\KJH\source\Codyssey_01> docker compose config
+>> docker compose up -d
+>> docker compose ps
+name: codyssey_01
+services:
+  helper:
+    image: nginx:alpine
+    networks:
+      default: null
+  web:
+    environment:
+      NGINX_PORT: "8085"
+    networks:
+      default: null
+    volumes:
+      - type: bind
+        source: C:\Users\KJH\source\Codyssey_01\WebServer\templates\default.conf.template
+        target: /etc/nginx/templates/default.conf.template
+        read_only: true
+        bind: {}
+    build:
+      context: C:\Users\KJH\source\Codyssey_01\WebServer
+      dockerfile: Dockerfile
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 8085
+        published: "8081"
+        protocol: tcp
+networks:
+  default:
+    name: codyssey_01_default
+[+] up 1/2
+[+] up 2/2
+[+] up 2/2
+ ✔ Container codyssey_01-helper-1 Created                                                                                              0.2
+ ✔ Container codyssey_01-helper-1 Started                                                                                              0.7s
+NAME                   IMAGE             COMMAND                   SERVICE   CREATED         STATUS                  PORTS
+codyssey_01-helper-1   nginx:alpine      "/docker-entrypoint.…"   helper    1 second ago    Up Less than a second   80/tcp
+codyssey_01-web-1      codyssey_01-web   "/docker-entrypoint.…"   web       4 minutes ago   Up 4 minutes            127.0.0.1:8081->8085/tcp
+PS C:\Users\KJH\source\Codyssey_01> docker compose exec web wget -qO- http://helper:80
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, nginx is successfully installed and working.
+Further configuration is required for the web server, reverse proxy,
+API gateway, load balancer, content cache, or other features.</p>
+
+<p>For online documentation and support please refer to
+<a href="https://nginx.org/">nginx.org</a>.<br/>
+To engage with the community please visit
+<a href="https://community.nginx.org/">community.nginx.org</a>.<br/>
+For enterprise grade support, professional services, additional
+security features and capabilities please refer to
+<a href="https://f5.com/nginx">f5.com/nginx</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+```
+----
+
+### 환경 변수 활용
+```text
+PS C:\Users\KJH\source\Codyssey_01> docker compose exec web wget -qO- http://helper:80
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+html { color-scheme: light dark; }
+body { width: 35em; margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif; }
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, nginx is successfully installed and working.
+Further configuration is required for the web server, reverse proxy,
+API gateway, load balancer, content cache, or other features.</p>
+
+<p>For online documentation and support please refer to
+<a href="https://nginx.org/">nginx.org</a>.<br/>
+To engage with the community please visit
+<a href="https://community.nginx.org/">community.nginx.org</a>.<br/>
+For enterprise grade support, professional services, additional
+security features and capabilities please refer to
+<a href="https://f5.com/nginx">f5.com/nginx</a>.</p>
+
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+[+] up 1/2
+[+] up 2/2
+s   listen 8085;
+ ✔ Container codyssey_01-web-1    Started                                                                                              1.3s
+NAME                   IMAGE             COMMAND                   SERVICE   CREATED         STATUS                  PORTS
+codyssey_01-helper-1   nginx:alpine      "/docker-entrypoint.…"   helper    5 minutes ago   Up 5 minutes            80/tcp
+codyssey_01-web-1      codyssey_01-web   "/docker-entrypoint.…"   web       1 second ago    Up Less than a second   127.0.0.1:8081->8095/tcp  }
+server {
+    listen 8095;source\Codyssey_01> $env:NGINX_PORT = "8095"
+    server_name localhost;
+>> docker compose up -d
+    location / {e ps
+        root /usr/share/nginx/html;/nginx/conf.d/default.conf
+        index index.html;alhost:8081
+    }
+}
+HTTP/1.1 200 OK
+Server: nginx/1.31.8
+Date: Mon, 09 Nov 2026 08:15:25 GMT
+Content-Type: text/html
+Content-Length: 33
+Last-Modified: Sun, 08 Nov 2026 10:39:04 GMT
+Connection: keep-alive
+ETag: "6af05148-21"
+Accept-Ranges: bytes
+
+﻿<h1>Bind Mount Success!</h1>
+```
+----
+
+## Compose 운영 명령
+| 명령 | 확인한 내용 |
+|---|---|
+| `up -d` | 서비스를 백그라운드로 실행 |
+| `ps` | 실행 상태와 포트 확인 |
+| `logs` | 서버 시작·접속 로그 확인 |
+| `down` | Compose 컨테이너와 기본 네트워크 제거 |
+| 다시 `up -d` | 같은 설정으로 재실행 |
+
+```text
+PS C:\Users\KJH\source\Codyssey_01> curl.exe -i http://localhost:8081
+>> docker compose ps
+>> docker compose logs --tail 30
+>>
+>> docker compose down
+>> docker compose ps -a
+>>
+>> docker compose up -d
+>> docker compose ps
+HTTP/1.1 200 OK
+Server: nginx/1.31.8
+Date: Mon, 09 Nov 2026 08:40:56 GMT
+Content-Type: text/html
+Content-Length: 33
+Last-Modified: Sun, 08 Nov 2026 10:39:04 GMT
+Connection: keep-alive
+ETag: "6af05148-21"
+Accept-Ranges: bytes
+
+﻿<h1>Bind Mount Success!</h1>
+NAME                   IMAGE             COMMAND                   SERVICE   CREATED          STATUS          PORTS
+codyssey_01-helper-1   nginx:alpine      "/docker-entrypoint.…"   helper    30 minutes ago   Up 30 minutes   80/tcp
+codyssey_01-web-1      codyssey_01-web   "/docker-entrypoint.…"   web       15 minutes ago   Up 15 minutes   127.0.0.1:8081->8085/tcp
+helper-1  | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+helper-1  | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+helper-1  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+helper-1  | 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+helper-1  | 10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+web-1     | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+helper-1  | /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+web-1     | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+web-1     | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+web-1     | 10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+web-1     | 10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+web-1     | /docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+web-1     | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+helper-1  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+helper-1  | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+web-1     | 20-envsubst-on-templates.sh: Running envsubst on /etc/nginx/templates/default.conf.template to /etc/nginx/conf.d/default.conf
+web-1     | /docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+web-1     | /docker-entrypoint.sh: Configuration complete; ready for start up
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: using the "epoll" event method
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: nginx/1.31.8
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: built by gcc 15.2.0 (Alpine 15.2.0)
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: OS: Linux 6.18.40.1-microsoft-standard-WSL2
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: start worker processes
+helper-1  | /docker-entrypoint.sh: Configuration complete; ready for start up
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: start worker process 36
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: using the "epoll" event method
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: start worker process 37
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: start worker process 38
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: start worker process 39
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: start worker process 40
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: start worker process 41
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: start worker process 42
+web-1     | 2026/11/09 08:25:19 [notice] 1#1: start worker process 43
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: nginx/1.31.8
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: built by gcc 15.2.0 (Alpine 15.2.0)
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: OS: Linux 6.18.40.1-microsoft-standard-WSL2
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: start worker processes
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: start worker process 30
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: start worker process 31
+web-1     | 172.18.0.1 - - [09/Nov/2026:08:40:56 +0000] "GET / HTTP/1.1" 200 33 "-" "curl/8.13.0" "-"
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: start worker process 32
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: start worker process 33
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: start worker process 34
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: start worker process 35
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: start worker process 36
+helper-1  | 2026/11/09 08:10:13 [notice] 1#1: start worker process 37
+helper-1  | 172.18.0.2 - - [09/Nov/2026:08:10:33 +0000] "GET / HTTP/1.1" 200 896 "-" "Wget" "-"
+[+] down 2/3
+ ✔ Container codyssey_01-web-1    Removed                                                                                              0.7[+] down 3/3
+ ✔ Container codyssey_01-helper-1 Removed                                                                                              0.7
+s
+ ✔ Network codyssey_01_default    Removed                                                                                              0.2s
+NAME      IMAGE     COMMAND   SERVICE   CREATED   STATUS    PORTS
+[+] up 1/3
+[+] up 3/3
+s
+[+] up 2/3
+[+] up 3/3
+ - Container codyssey_01-web-1    Starting                                                                                             0.9s
+ ✔ Container codyssey_01-web-1    Started                                                                                              1.3s
+
+NAME                   IMAGE             COMMAND                   SERVICE   CREATED        STATUS                  PORTS
+codyssey_01-helper-1   nginx:alpine      "/docker-entrypoint.…"   helper    1 second ago   Up 1 second             80/tcp
+codyssey_01-web-1      codyssey_01-web   "/docker-entrypoint.…"   web       1 second ago   Up Less than a second   127.0.0.1:8081->8085/tcp
+```
 
