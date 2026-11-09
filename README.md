@@ -1068,8 +1068,9 @@ main
 - 변경 내용을 확인한 뒤 커밋했다.
 - 브라우저 인증 후 GitHub의 main 브랜치로 push했다.
 - git status에서 원격 브랜치와 동기화되었으며 작업 폴더에 미커밋 변경이 없음을 확인했다.
-- Git push 과정에서 브라우저 인증을 완료했다.
-- 아래 캡쳐 파일은 터미널 Git 작업의 인증 증거이며, VS Code 로그인 증거는 별도로 기록한다.
+- Git push 시 GitHub 로그인 창이 표시되어 브라우저 인증을 진행했다.
+- 인증 및 업로드 성공은 아래의 push 성공 로그와 GitHub 저장소 화면으로 확인했다.
+- VS Code의 GitHub 로그인 증거는 별도로 기록한다.
 
 ```text
 PS C:\Users\KJH\source\Codyssey_01> git config --get init.defaultBranch
