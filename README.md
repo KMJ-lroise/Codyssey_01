@@ -1669,7 +1669,39 @@ Hi KMJ-lroise! You've successfully authenticated, but GitHub does not provide sh
 ```
 ----
 
+#### SSH 원격 저장소 연결 및 동기화
 
+- origin의 fetch·push 주소를 HTTPS에서 SSH로 변경했다.
+- SSH 인증을 통해 원격 README 변경 사항을 가져왔다.
+- git push 실행 결과 Everything up-to-date가 출력되어 전송할 새 커밋이 없음을 확인했다.
 
+```text
+PS C:\WINDOWS\system32> Set-Location "$env:USERPROFILE\source\Codyssey_01"
+PS C:\Users\KJH\source\Codyssey_01> git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+PS C:\Users\KJH\source\Codyssey_01> git remote set-url origin git@github.com:KMJ-lroise/Codyssey_01.git
+PS C:\Users\KJH\source\Codyssey_01> git remote -v
+origin  git@github.com:KMJ-lroise/Codyssey_01.git (fetch)
+origin  git@github.com:KMJ-lroise/Codyssey_01.git (push)
+PS C:\Users\KJH\source\Codyssey_01> git pull --ff-only
+Enter passphrase for key '/c/Users/KJH/.ssh/id_ed25519':
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (3/3), 2.81 KiB | 84.00 KiB/s, done.
+From github.com:KMJ-lroise/Codyssey_01
+   f0be616..7b7281d  main       -> origin/main
+Updating f0be616..7b7281d
+Fast-forward
+ README.md | 110 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 110 insertions(+)
+PS C:\Users\KJH\source\Codyssey_01> git push origin main
+Enter passphrase for key '/c/Users/KJH/.ssh/id_ed25519':
+Everything up-to-date
+```
 
 
