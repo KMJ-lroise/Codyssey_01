@@ -1563,3 +1563,113 @@ codyssey_01-helper-1   nginx:alpine      "/docker-entrypoint.…"   helper    1 
 codyssey_01-web-1      codyssey_01-web   "/docker-entrypoint.…"   web       1 second ago   Up Less than a second   127.0.0.1:8081->8085/tcp
 ```
 
+### GitHub 업로드
+```text
+PS C:\Users\KJH\source\Codyssey_01> git commit -m "Add Compose configuration and NGINX template"
+>> git push origin main
+>> git status
+[main f48d144] Add Compose configuration and NGINX template
+ 2 files changed, 21 insertions(+)
+ create mode 100644 WebServer/templates/default.conf.template
+ create mode 100644 docker-compose.yml
+To https://github.com/KMJ-lroise/Codyssey_01.git
+ ! [rejected]        main -> main (fetch first)
+error: failed to push some refs to 'https://github.com/KMJ-lroise/Codyssey_01.git'
+hint: Updates were rejected because the remote contains work that you do not
+hint: have locally. This is usually caused by another repository pushing to
+hint: the same ref. If you want to integrate the remote changes, use
+hint: 'git pull' before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+PS C:\Users\KJH\source\Codyssey_01> git pull --rebase origin main
+remote: Enumerating objects: 8, done.
+remote: Counting objects: 100% (8/8), done.
+remote: Compressing objects: 100% (6/6), done.
+remote: Total 6 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (6/6), 5.78 KiB | 88.00 KiB/s, done.
+From https://github.com/KMJ-lroise/Codyssey_01
+ * branch            main       -> FETCH_HEAD
+   8578a38..3d0a685  main       -> origin/main
+Successfully rebased and updated refs/heads/main.
+PS C:\Users\KJH\source\Codyssey_01> git push origin main
+Enumerating objects: 8, done.
+Counting objects: 100% (8/8), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (6/6), 837 bytes | 279.00 KiB/s, done.
+Total 6 (delta 0), reused 0 (delta 0), pack-reused 0 (from 0)
+To https://github.com/KMJ-lroise/Codyssey_01.git
+   3d0a685..f0be616  main -> main
+PS C:\Users\KJH\source\Codyssey_01> git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+```
+
+### GitHub SSH 인증 설정 및 SSH 인증 확인
+- Ed25519 방식의 SSH 키를 생성했다.
+- 공개키 파일(id_ed25519.pub)을 GitHub 계정의 SSH keys에 등록했다.
+- GitHub 서버의 ED25519 지문을 공식 값과 대조한 뒤 연결했다.
+- ssh -T 명령으로 GitHub 계정 인증 성공을 확인했다.
+- 개인키와 passphrase는 저장소 및 문서에 포함하지 않았다.
+
+```text
+PS C:\Users\KJH\source\Codyssey_01> Get-ChildItem "$env:USERPROFILE\.ssh" -ErrorAction SilentlyContinue
+PS C:\Users\KJH\source\Codyssey_01> ssh-keygen -t ed25519 -C "codyssey-laptop"
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (C:\Users\KJH/.ssh/id_ed25519):
+Created directory 'C:\\Users\\KJH/.ssh'.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in C:\Users\KJH/.ssh/id_ed25519
+Your public key has been saved in C:\Users\KJH/.ssh/id_ed25519.pub
+The key fingerprint is:
+SHA256:NgMp3aWzBC8F397VUu4jyvmsAmtZ5YoHGeZAvyrAGQY codyssey-laptop
+The key's randomart image is:
++--[ED25519 256]--+
+|      o.. .     .|
+|E    o B +     + |
+|.   o * B .   o o|
+| o   o B + o . o |
+|o o   + S + .. ..|
+| +     B +..o . .|
+|  .   . B .+     |
+|   . . = +  o    |
+|    . . . ...o   |
++----[SHA256]-----+
+PS C:\Users\KJH\source\Codyssey_01> Get-Content "$env:USERPROFILE\.ssh\id_ed25519.pub" | Set-Clipboard
+PS C:\Users\KJH\source\Codyssey_01> Get-Content "$env:USERPROFILE\.ssh\id_ed25519.pub" | Set-Clipboard
+PS C:\Users\KJH\source\Codyssey_01> ssh -T git@github.com
+The authenticity of host 'github.com (20.200.245.247)' can't be established.
+ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
+Enter passphrase for key 'C:\Users\KJH/.ssh/id_ed25519':
+Hi KMJ-lroise! You've successfully authenticated, but GitHub does not provide shell access.
+```
+<img width="580" height="319" alt="ssh key" src="https://github.com/user-attachments/assets/d90c1e57-a6ed-4696-aa59-835f05961ff0" />
+
+#### SSH 인증 확인
+
+```text
+PS C:\Users\KJH\source\Codyssey_01> ssh -T git@github.com
+The authenticity of host 'github.com (20.200.245.247)' can't be established.
+ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
+This key is not known by any other names.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
+Enter passphrase for key 'C:\Users\KJH/.ssh/id_ed25519':
+Hi KMJ-lroise! You've successfully authenticated, but GitHub does not provide shell access.
+```
+----
+
+
+
+
+
