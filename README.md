@@ -1811,6 +1811,7 @@ docker compose logs --tail 30
 docker compose down
 ```
 
+
 ## 18. 핵심 개념 및 최종 결과
 
 - 절대 경로는 /home/kjh/codyssey-week01처럼 루트부터 나타낸 경로이고, 상대 경로는 현재 위치를 기준으로 한 ./WebServer 같은 경로이다.
