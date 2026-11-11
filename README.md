@@ -1770,6 +1770,49 @@ PS C:\Users\KJH\source\Codyssey_01> git push origin main
 Enter passphrase for key '/c/Users/KJH/.ssh/id_ed25519':
 Everything up-to-date
 ```
+```text
+PS C:\Users\KJH\source\Codyssey_01> Set-Location "$env:USERPROFILE\source\Codyssey_01"
+>> git pull --ff-only
+>> code README.md
+Enter passphrase for key '/c/Users/KJH/.ssh/id_ed25519':
+Already up to date.
+PS C:\Users\KJH\source\Codyssey_01> git add README.md
+PS C:\Users\KJH\source\Codyssey_01> git diff --cached --stat
+ README.md | 1 +
+ 1 file changed, 1 insertion(+)
+PS C:\Users\KJH\source\Codyssey_01> git diff --cached
+diff --git a/README.md b/README.md
+index 0ec452c..f7cf8b7 100644
+--- a/README.md
++++ b/README.md
+@@ -1811,6 +1811,7 @@ docker compose logs --tail 30
+ docker compose down
+ ```
+
++
+ ## 18. 핵심 개념 및 최종 결과
+
+ - 절대 경로는 /home/kjh/codyssey-week01처럼 루트부터 나타낸 경로이고, 상대 경로는 현재 위치를 기준으로 한 ./WebServer 같은 경로이다.
+PS C:\Users\KJH\source\Codyssey_01> git commit -m "Complete week 1 documentation"
+>> git push origin main
+>> git status
+[main 8af19d1] Complete week 1 documentation
+ 1 file changed, 1 insertion(+)
+Enter passphrase for key '/c/Users/KJH/.ssh/id_ed25519':
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 393 bytes | 393.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:KMJ-lroise/Codyssey_01.git
+   496937f..8af19d1  main -> main
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+```
 
 ## 17. 실행 재현 방법
 
