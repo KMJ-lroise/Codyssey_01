@@ -1789,30 +1789,6 @@ index 0ec452c..f7cf8b7 100644
  docker compose down
  ```
 
-+
- ## 18. 핵심 개념 및 최종 결과
-
- - 절대 경로는 /home/kjh/codyssey-week01처럼 루트부터 나타낸 경로이고, 상대 경로는 현재 위치를 기준으로 한 ./WebServer 같은 경로이다.
-PS C:\Users\KJH\source\Codyssey_01> git commit -m "Complete week 1 documentation"
->> git push origin main
->> git status
-[main 8af19d1] Complete week 1 documentation
- 1 file changed, 1 insertion(+)
-Enter passphrase for key '/c/Users/KJH/.ssh/id_ed25519':
-Enumerating objects: 5, done.
-Counting objects: 100% (5/5), done.
-Delta compression using up to 8 threads
-Compressing objects: 100% (3/3), done.
-Writing objects: 100% (3/3), 393 bytes | 393.00 KiB/s, done.
-Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (1/1), completed with 1 local object.
-To github.com:KMJ-lroise/Codyssey_01.git
-   496937f..8af19d1  main -> main
-On branch main
-Your branch is up to date with 'origin/main'.
-
-nothing to commit, working tree clean
-```
 
 ## 17. 실행 재현 방법
 
@@ -1855,7 +1831,7 @@ docker compose down
 ```
 
 
-## 18. 핵심 개념 및 최종 결과
+ ## 18. 핵심 개념 및 최종 결과
 
 - 절대 경로는 /home/kjh/codyssey-week01처럼 루트부터 나타낸 경로이고, 상대 경로는 현재 위치를 기준으로 한 ./WebServer 같은 경로이다.
 - Linux 권한은 소유자·그룹·기타 사용자 순서로 표시한다. r=4, w=2, x=1을 합산하므로 755는 rwxr-xr-x, 644는 rw-r--r--이다.
@@ -1868,6 +1844,28 @@ docker compose down
 - Compose는 서비스 실행 설정을 파일로 관리한다. 같은 네트워크의 서비스들은 서비스 이름으로 통신할 수 있다.
 
 터미널 조작, 권한 변경, 웹 서버 컨테이너 실행, 포트 연결, 변경 반영, 데이터 영속성을 실제 출력으로 검증했다. Compose와 환경 변수, SSH 인증까지 확장하여 실습했다.
+
+```text
+PS C:\Users\KJH\source\Codyssey_01> git commit -m "Complete week 1 documentation"
+>> git push origin main
+>> git status
+[main 8af19d1] Complete week 1 documentation
+ 1 file changed, 1 insertion(+)
+Enter passphrase for key '/c/Users/KJH/.ssh/id_ed25519':
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 393 bytes | 393.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To github.com:KMJ-lroise/Codyssey_01.git
+   496937f..8af19d1  main -> main
+On branch main
+Your branch is up to date with 'origin/main'.
+
+nothing to commit, working tree clean
+```
 
 ## 19. 보안 및 개인정보 보호
 
