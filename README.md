@@ -1,5 +1,49 @@
 # Codyssey_01
 
+## 프로젝트 개요
+
+터미널, Docker, Git/GitHub를 이용해 개발 환경을 구축한 1주차 미션이다.
+
+터미널 파일 조작과 권한 변경, Docker 컨테이너 운영, Dockerfile 기반 웹 서버 제작, 포트 매핑, Bind Mount와 Volume을 검증했다. 추가로 Compose 단일·멀티 서비스, 서비스 간 통신, 환경 변수에 따른 서버 포트 변경, GitHub SSH 인증을 실습했다.
+
+초기 기록은 교육장 PC에서 수행했으며, 이후 개인 노트북에서 환경 구축과 실습을 이어갔다. 아래 환경표는 개인 노트북 기준이다.
+
+## 최종 실행 환경
+
+| 항목 | 환경 |
+|---|---|
+| OS | Windows 10, 빌드 19045.6466 |
+| Windows 셸 | Windows PowerShell |
+| Linux 환경 | WSL 2의 Ubuntu, Bash |
+| WSL 프로그램 버전 | 3.0.1.0 |
+| Docker Engine | 29.9.2 |
+| Docker Desktop | 4.98.0 |
+| Docker Compose | v5.6.1 |
+| Git | 2.56.0.windows.4 |
+| VS Code | 1.143.1 |
+
+Windows PowerShell과 VS Code 통합 터미널에서 작업하며, Linux 권한 실습은 WSL Ubuntu에서 수행했다.
+
+## 수행 체크리스트
+
+- [x] 터미널 기본 조작 및 숨김 파일 확인 — 3~6번
+- [x] 파일·디렉터리 권한 변경 전후 확인 — 7번
+- [x] Docker 설치 및 데몬 점검 — 8번
+- [x] hello-world와 Ubuntu 컨테이너 실행 — 9번
+- [x] 이미지·컨테이너·로그·리소스 확인 — 9번
+- [x] Dockerfile 작성 및 커스텀 이미지 빌드 — 10번
+- [x] 포트 매핑 및 브라우저 접속 — 11번
+- [x] Bind Mount 변경 반영 — 12번
+- [x] 컨테이너 삭제 후 Volume 데이터 유지 — 13번
+- [x] Git 설정 및 GitHub·VS Code 연동 — 14번
+- [x] 오류 원인 확인과 해결 기록 — 15번
+- [x] Compose 단일·멀티 서비스 및 내부 통신 — 16번
+- [x] 환경 변수로 서버 포트 변경 및 복원 — 16번
+- [x] Compose 운영 명령 — 16번
+- [x] GitHub SSH 인증 및 원격 연결 — 16번
+
+----
+
 ## 1. 설치 명령 실행 및 설치 과정 확인
 - 가상 머신 플랫폼 활성화 완료 메시지 확인
 - 재부팅 전 wsl --status에서 미설치로 표시되는 현상 확인
@@ -680,6 +724,13 @@ ExitCode=137 OOMKilled=false
 
 - Get-Content로 확인한 HTML과 Dockerfile
 
+### 베이스 이미지 및 커스텀 목적
+
+- nginx:alpine을 베이스 이미지로 사용했다. NGINX가 준비된 환경에서 정적 웹 페이지를 제공하기 위해 선택했다.
+- COPY로 직접 만든 app/index.html을 NGINX의 기본 웹 경로에 넣어 기본 페이지를 교체했다.
+- EXPOSE 80으로 이미지의 기본 서비스 포트를 명시했다. 실제 호스트 포트 연결은 docker run의 -p 또는 Compose의 ports로 설정했다.
+- 기본 Dockerfile 실습은 내부 포트 80을 사용한다. 선택 미션의 Compose 실행에서는 NGINX 템플릿과 환경 변수로 내부 포트를 8085 또는 8095로 변경했다.
+
 ```text
 새로운 크로스 플랫Set-Location "$env:USERPROFILE\source\Codyssey_01"
 >> Get-Location
@@ -1140,6 +1191,22 @@ nothing to commit, working tree clean
 - 인터넷에 접속 -> Git 공식 Windows 설치 페이지에서 Git for Windows/x64 Setup 파일을 다운받아 직접 설치 -> Git 설치 (문제 해결)
 - 오류 발생 화면은 캡처하지 못하여 터미널의 실제 출력 내용을 텍스트로만 첨부
 - 공식 설치 파일로 직접 설치한 뒤, git --version으로 정상 실행을 확인하고 해당 내용을 텍스트와 화면 캡처로 첨부
+
+### 사례 1. Git 설치 중 504 오류
+
+- 문제: winget으로 Git을 다운로드할 때 Gateway timeout(504)이 발생했다.
+- 원인 가설: 다운로드 경로의 서버 또는 중간 네트워크에서 응답 지연이 발생했을 가능성이 있었다.
+- 확인: 같은 명령을 재시도해도 504 오류가 반복됐다. 정확히 어느 구간에서 지연됐는지는 확정하지 못했다.
+- 해결: 공식 Git for Windows 설치 파일을 직접 내려받아 설치했다. git --version으로 정상 실행을 확인했다.
+
+### 사례 2. 원격 변경으로 인한 push 거절
+
+- 문제: Compose 파일을 커밋한 뒤 push했으나 fetch first 메시지로 거절됐다.
+- 원인 가설: GitHub에서 수정한 README 커밋이 로컬에 반영되지 않은 상태였다.
+- 확인: git pull --rebase origin main 실행 시 원격의 새 커밋을 가져왔고 rebase가 완료됐다.
+- 해결: 다시 push하여 업로드에 성공했다. git status에서 원격과 동기화된 상태를 확인했다.
+- 증거: 16번 선택 미션의 GitHub 업로드 로그.
+
 ----
 
 - 오류 발생 내용
@@ -1704,4 +1771,65 @@ Enter passphrase for key '/c/Users/KJH/.ssh/id_ed25519':
 Everything up-to-date
 ```
 
+## 17. 실행 재현 방법
 
+### 사전 조건
+
+Git과 Docker Desktop을 설치하고 Docker Desktop의 Linux 컨테이너 엔진을 실행한다. 아래 명령은 Windows PowerShell 기준이다.
+
+### 저장소 받기
+
+기존 Codyssey_01 폴더가 없는 작업 위치에서 실행한다.
+
+```powershell
+git clone https://github.com/KMJ-lroise/Codyssey_01.git
+cd Codyssey_01
+```
+
+공개 저장소를 받는 과정에는 개인 SSH 키가 필요하지 않다.
+
+### Compose 실행 및 검증
+
+```powershell
+docker compose up -d --build
+docker compose ps
+curl.exe -i http://localhost:8081
+docker compose exec web wget -qO- http://helper:80
+docker compose logs --tail 30
+```
+
+- 브라우저에서 http://localhost:8081에 접속한다.
+- 기본 내부 포트는 8085이며 호스트 포트는 8081이다.
+- NGINX_PORT 환경 변수가 별도로 설정되어 있다면 내부 포트는 그 값을 사용한다.
+- web과 helper 서비스가 실행되고, 내부 HTTP 통신이 되는지 확인한다.
+- 명령은 docker-compose.yml이 있는 저장소 루트에서 실행한다.
+- 호스트 포트 8081을 다른 프로그램이 사용 중이면 Compose의 호스트 포트를 변경해야 한다.
+
+### 종료
+
+```powershell
+docker compose down
+```
+
+## 18. 핵심 개념 및 최종 결과
+
+- 절대 경로는 /home/kjh/codyssey-week01처럼 루트부터 나타낸 경로이고, 상대 경로는 현재 위치를 기준으로 한 ./WebServer 같은 경로이다.
+- Linux 권한은 소유자·그룹·기타 사용자 순서로 표시한다. r=4, w=2, x=1을 합산하므로 755는 rwxr-xr-x, 644는 rw-r--r--이다.
+- 파일의 x는 실행 권한이고, 디렉터리의 x는 해당 디렉터리를 통과하거나 내부 항목에 접근하기 위한 권한이다.
+- 이미지는 실행 환경의 바탕이고, 컨테이너는 이미지로 생성한 실행 인스턴스이다.
+- 컨테이너의 주 프로세스가 종료되면 컨테이너도 종료된다. docker exec로 추가 실행한 셸만 종료하면 주 프로세스가 계속 실행되는 동안 컨테이너는 유지된다.
+- 포트 매핑은 호스트의 접속 포트를 컨테이너의 서비스 포트에 연결한다.
+- Bind Mount는 호스트 경로를 컨테이너에 연결하고, Volume은 컨테이너와 별도로 데이터를 관리한다.
+- Git은 버전 관리 도구이고, GitHub는 원격 저장소 및 협업 플랫폼이다.
+- Compose는 서비스 실행 설정을 파일로 관리한다. 같은 네트워크의 서비스들은 서비스 이름으로 통신할 수 있다.
+
+터미널 조작, 권한 변경, 웹 서버 컨테이너 실행, 포트 연결, 변경 반영, 데이터 영속성을 실제 출력으로 검증했다. Compose와 환경 변수, SSH 인증까지 확장하여 실습했다.
+
+## 19. 보안 및 개인정보 보호
+
+- 문서와 캡처에 비밀번호, passphrase, 토큰, 개인키, 일회용 인증 코드가 포함되지 않도록 확인했다.
+- Git 커밋 이메일은 GitHub noreply 주소로 설정했다. 이 설정은 기존 커밋의 이메일을 소급하여 변경하지 않는다.
+- SSH 개인키는 로컬에 보관하고 공개키만 GitHub 계정 설정에 등록했다.
+- 공개키 지문과 GitHub 서버 지문은 인증 비밀값과 구분하여 기록했다.
+- 저장소 주소와 공개 GitHub 계정 이름은 제출 증거로 유지했다.
+- 비밀값 노출이 확인되면 해당 자격 증명을 먼저 폐기·재발급하고, 문서·첨부 이미지·Git 기록에서 필요한 정리를 진행한다.
